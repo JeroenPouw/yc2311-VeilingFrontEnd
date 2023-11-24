@@ -3,10 +3,33 @@
 <script>
     function eventestenget(){
         console.log("even testen get werkt");
-        fetch("http://localhost:8082/maak-account/felix")
-        .then(r => console.log(r))
-        
+        fetch("http://localhost:8082/account/3")
+        .then(r => r.json())
+        .then(d => doen(d))
+
+    }
+    function doen(data){
+        console.log(data);
+        document.getElementById("antwoord").innerHTML = data.naam;
+    }
+    function toevoegen(){
+        console.log("toevoegen")
+        let hetaccount = {}
+        hetaccount.naam = document.getElementById("voornaam").value;
+        let hetaccountJSON = JSON.stringify(hetaccount);
+        console.log(hetaccountJSON)
+        fetch('http://localhost:8082/maak-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: hetaccountJSON
+        })
     }
 </script>
 
 <button onclick="eventestenget()">Toon Account</button>
+<h1 id="antwoord"></h1>
+<hr><hr>
+naam:<input type="text" id="voornaam">
+<button onclick="toevoegen()">voeg toe</button>
