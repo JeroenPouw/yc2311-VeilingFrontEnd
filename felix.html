@@ -1,0 +1,12 @@
+<h1>Felix site</h1>
+
+<script>
+    function eventestenget(){
+        console.log("even testen get werkt");
+        fetch("http://localhost:8082/maak-account/felix")
+        .then(r => console.log(r))
+        
+    }
+</script>
+
+<button onclick="eventestenget()">Toon Account</button>
