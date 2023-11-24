@@ -33,4 +33,12 @@ Do this inside head, after `<title>` tag:
 
 <!-- link to own js file -->
 <script src="js/accounts.js"></script>
+
+<!-- link to jquery nav bar -->
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="js/nav.js"></script>
 ```
+
+## Bootstrap
+
+https://getbootstrap.com/docs/5.3/
