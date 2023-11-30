@@ -26,6 +26,38 @@
             body: hetaccountJSON
         })
     }
+//jdbc:mysql://yc2308databasejava.mysql.database.azure.com/dbjavabe?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+
+    //======================================
+    function haalveildingopcsharp(){
+        fetch("https://localhost:7252/api/Veiling")
+        .then(r => r.json())
+        .then(d => verwerkencsharp(d))
+    }
+    function verwerkencsharp(data){
+        document.getElementById("csharpuitkomst").innerHTML = "";
+        for(let x =0; x < data.length; x++){
+            document.getElementById("csharpuitkomst").innerHTML += data[x].duratie + "<br>";
+        }
+    }
+    function veilingtoevoegencsharp(){
+        console.log("voeg toe");
+        var veiling = {}
+        veiling.Duratie = document.getElementById("invoerduratie").value;
+        veiling.OpeningsBod = document.getElementById("invoeropeningsbod").value;
+
+        var veilingjson = JSON.stringify(veiling);
+        console.log(veilingjson);
+        fetch('https://localhost:7252/api/Veiling', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: veilingjson
+        })
+
+    }
 </script>
 
 <button onclick="eventestenget()">Toon Account</button>
@@ -33,3 +65,10 @@
 <hr><hr>
 naam:<input type="text" id="voornaam">
 <button onclick="toevoegen()">voeg toe</button>
+<hr><hr><hr>CSHARP VVV<hr><hr><hr>
+Duratie: <input type="text" id="invoerduratie">
+Openingsbod: <input type="text" id="invoeropeningsbod">
+<button onclick="veilingtoevoegencsharp()">Toevoegen</button>
+<hr>
+<button onclick="haalveildingopcsharp()">Klik csharp</button>
+<div id="csharpuitkomst"></div>
