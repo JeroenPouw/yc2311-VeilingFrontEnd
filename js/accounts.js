@@ -4,8 +4,6 @@ function getAccounts() {
 		.then((d) => maakTable(d));
 }
 
-getAccounts();
-
 function toevoegen() {
 	let account = {};
 
@@ -24,6 +22,10 @@ function toevoegen() {
 		headers: { "Content-Type": "application/json" },
 	});
 	getAccounts();
+}
+
+function openAccountDetails(params) {
+	window.location = `accountdetails.html?accountid=${params}`;
 }
 
 // Function to convert JSON data to HTML table
@@ -63,6 +65,9 @@ function maakTable(data) {
 			td.innerText = elem; // Set the value as the text of the table cell
 			tr.appendChild(td); // Append the table cell to the table row
 		});
+		let td = document.createElement("td");
+		td.innerHTML = `<button onclick="openAccountDetails(${item.id})">Button</button>`;
+		tr.appendChild(td);
 		table.appendChild(tr); // Append the table row to the table
 	});
 
