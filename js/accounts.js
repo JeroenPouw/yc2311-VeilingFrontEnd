@@ -24,8 +24,8 @@ function toevoegen() {
 	getAccounts();
 }
 
-function openAccountDetails(params) {
-	window.location = `accountdetails.html?accountid=${params}`;
+function openHomepage(params) {
+	window.location = `persoonlijke-homepage.html?accountid=${params}`;
 }
 
 // Function to convert JSON data to HTML table
@@ -66,7 +66,7 @@ function maakTable(data) {
 			tr.appendChild(td); // Append the table cell to the table row
 		});
 		let td = document.createElement("td");
-		td.innerHTML = `<button onclick="openAccountDetails(${item.id})">Button</button>`;
+		td.innerHTML = `<button onclick="openHomepage(${item.id})">Homepagina</button>`;
 		tr.appendChild(td);
 		table.appendChild(tr); // Append the table row to the table
 	});

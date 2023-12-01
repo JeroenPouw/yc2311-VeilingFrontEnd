@@ -25,13 +25,10 @@ function toonNaam(data) {
 	const container = document.getElementById("accountDetails");
 	const h1 = document.createElement("h1");
 	h1.innerText = data.naam;
-	console.log(data);
 	container.appendChild(h1);
 }
 
 function favorietToevoegen(params) {
-	console.log(params);
-	console.log(userID);
 	fetch(`http://localhost:8082/account/${userID}/veilingstuk/${params}`);
 }
 
