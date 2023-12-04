@@ -1,4 +1,4 @@
-import AccountOffcanvas from "../components/AccountOffcanvas";
+import ProfielTabs from "components/ProfielTabs";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
@@ -42,8 +42,8 @@ export default function Profiel() {
 
 	return (
 		<Container className="mt-3">
-			<h1 className="text-center">Welkom, {user.naam}</h1>
-			<AccountOffcanvas account={user} />
+			<h1 className="text-center mb-5">Welkom, {user.naam}!</h1>
+			<ProfielTabs user={user} />
 		</Container>
 	);
 }

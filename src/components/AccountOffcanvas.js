@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import AccountForm from "./AccountForm";
+import { useNavigate } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default function AccountOffcanvas({ account }) {
+	const navigate = useNavigate();
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	// showAlert state and showAlertHandler to toggle it
-	const [showAlert, setShowAlert] = useState(false);
-	const showAlertHandler = () => setShowAlert(true);
-	const [message, setMessage] = useState("");
+	const openHomepage = (userID) => {
+		if (userID) {
+			navigate(`/persoonlijke-homepage`, {
+				state: { id: userID },
+			});
+		} else {
+			// inloggegevens niet gevonden;
+		}
+	};
 
 	return (
 		<>
@@ -25,6 +33,32 @@ export default function AccountOffcanvas({ account }) {
 					<Offcanvas.Title>Account details</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
+					<Container>
+						<Row className="justify-items-evenly">
+							<Col className="text-center">
+								<Button
+									onClick={() => {
+										navigate(`/persoonlijke-homepage`, {
+											state: { id: account.id },
+										});
+									}}
+								>
+									Homepage
+								</Button>
+							</Col>
+							<Col className="text-center">
+								<Button
+									onClick={() => {
+										navigate(`/profiel`, {
+											state: { id: account.id },
+										});
+									}}
+								>
+									Profiel
+								</Button>
+							</Col>
+						</Row>
+					</Container>
 					<AccountForm acc={account} />
 				</Offcanvas.Body>
 			</Offcanvas>
