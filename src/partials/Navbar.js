@@ -5,7 +5,12 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
 export default function TopNav() {
 	return (
-		<Navbar expand="lg" className="bg-body-tertiary">
+		<Navbar
+			bg="dark"
+			data-bs-theme="dark"
+			expand="lg"
+			className="bg-body-tertiary"
+		>
 			<Container>
 				<Navbar.Brand href="/">Veilingsite</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />

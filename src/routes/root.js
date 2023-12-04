@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import TopNav from "../partials/TopNav";
+import TopNav from "../partials/Navbar";
 import Footer from "../partials/Footer";
 
 export default function Root() {

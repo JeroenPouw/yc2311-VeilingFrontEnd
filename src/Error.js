@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
-import TopNav from "./partials/TopNav";
+import TopNav from "./partials/Navbar";
 import Footer from "./partials/Footer";
 
 export default function ErrorPage() {
