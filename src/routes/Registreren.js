@@ -52,6 +52,7 @@ export default function Registreren() {
 								type="email"
 								value={account.email}
 								onChange={handleChange}
+								id="email"
 							/>
 							<Form.Text className="text-muted">
 								We zullen uw e-mailadres nooit met iemand anders delen.
@@ -64,6 +65,7 @@ export default function Registreren() {
 								type="password"
 								value={account.password}
 								onChange={handleChange}
+								id="password"
 							/>
 						</Form.Group>
 						{/* Naam */}
@@ -73,6 +75,7 @@ export default function Registreren() {
 								type="text"
 								value={account.naam}
 								onChange={handleChange}
+								id="naam"
 							/>
 						</Form.Group>
 						{/* Telefoon */}
@@ -82,6 +85,7 @@ export default function Registreren() {
 								type="tel"
 								value={account.telefoon}
 								onChange={handleChange}
+								id="telefoon"
 							/>
 						</Form.Group>
 						{/* Plaats */}
@@ -91,6 +95,7 @@ export default function Registreren() {
 								type="text"
 								value={account.plaats}
 								onChange={handleChange}
+								id="plaats"
 							/>
 						</Form.Group>
 						{/* Postcode */}
@@ -100,6 +105,7 @@ export default function Registreren() {
 								type="text"
 								value={account.postcode}
 								onChange={handleChange}
+								id="postcode"
 							/>
 						</Form.Group>
 						<Button variant="primary" onClick={maakAccount}>
