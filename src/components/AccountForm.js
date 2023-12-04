@@ -47,14 +47,11 @@ export default function AccountForm({ acc }) {
 		await fetch(`http://localhost:8082/account/${acc.id}`, {
 			method: "DELETE",
 		});
-		window.location.reload();
+		navigate("/");
 	}
 
 	return (
 		<Container>
-			<Row>
-				<h1 className="text-center">{acc.naam}</h1>
-			</Row>
 			<AlertSuccess
 				showAlert={showAlert}
 				setShowAlert={setShowAlert}

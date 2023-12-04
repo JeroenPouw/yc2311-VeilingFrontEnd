@@ -7,6 +7,7 @@ export default function AdminPortal({ children }) {
 		<Container>
 			<h1 className="text-center mt-3">Admin portal</h1>
 			<Outlet />
+			<div className="mb-4"></div>
 		</Container>
 	);
 }

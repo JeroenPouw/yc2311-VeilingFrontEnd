@@ -1,12 +1,23 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import AccountTabel from "../components/AccountTabel";
+import ItemTabel from "../components/ItemTabel";
 
-function Items() {
+export default function ItemComponent() {
+	const [items, setItems] = useState([]);
+
+	const getItems = () => {
+		fetch("http://localhost:8082/veilingstukken")
+			.then((r) => r.json())
+			.then((d) => setItems(d));
+	};
+
+	useEffect(() => {
+		getItems();
+	}, []);
+
 	return (
-		<Container>
-			<h1>ITEMS</h1>
-		</Container>
+		<div>
+			<ItemTabel data={items} />
+		</div>
 	);
 }
-
-export default Items;

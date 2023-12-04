@@ -15,8 +15,8 @@ export default function Footer() {
 						>
 							<img
 								src="https://seeklogo.com/images/J/javascript-logo-8892AEFCAC-seeklogo.com.png"
-								width="36"
-								height="36"
+								width="30"
+								height="30"
 								alt="Javascript"
 							/>
 						</a>
@@ -29,8 +29,8 @@ export default function Footer() {
 						>
 							<img
 								src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/java-colored.svg"
-								width="36"
-								height="36"
+								width="30"
+								height="30"
 								alt="Java"
 							/>
 						</a>
@@ -43,8 +43,8 @@ export default function Footer() {
 						>
 							<img
 								src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/csharp-colored.svg"
-								width="36"
-								height="36"
+								width="30"
+								height="30"
 								alt="C#"
 							/>
 						</a>
