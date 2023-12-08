@@ -22,7 +22,7 @@ export default function ItemOffcanvas({ item }) {
 
 			<Offcanvas show={show} onHide={handleClose} placement="end">
 				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>Account details</Offcanvas.Title>
+					<Offcanvas.Title>Item details</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
 					<ItemForm veilingstuk={item} />
