@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import FavorietButton from "./FavorietButton";
 
-export default function ItemCard({ user, item, isFavoriet }) {
+export default function ItemCard({ user = null, item, isFavoriet = null }) {
 	return (
 		<Col key={item.id} xs={12} md={6} xl={3}>
 			<Card className="m-2">
@@ -15,11 +15,13 @@ export default function ItemCard({ user, item, isFavoriet }) {
 							</Card.Subtitle>
 						</Col>
 						<Col className="text-end">
-							<FavorietButton
-								accountID={user.id}
-								itemID={item.id}
-								isFav={isFavoriet}
-							/>
+							{user != null && (
+								<FavorietButton
+									accountID={user.id}
+									itemID={item.id}
+									isFav={isFavoriet}
+								/>
+							)}
 						</Col>
 					</Row>
 					<Card.Text>{item.beschrijving}</Card.Text>
