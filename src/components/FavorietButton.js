@@ -49,7 +49,12 @@ export default function FavorietButton({ accountID, itemID, isFav }) {
 		<Button
 			variant={isFavoriet ? "danger" : "primary"}
 			className="ml-auto"
-			onClick={() => toggleFavoriet(accountID, itemID, isFavoriet)}
+			onClick={(e) => {
+				e.stopPropagation();
+				{
+					toggleFavoriet(accountID, itemID, isFavoriet);
+				}
+			}}
 			disabled={isClicked}
 		>
 			♡

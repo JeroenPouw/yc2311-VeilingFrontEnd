@@ -40,6 +40,7 @@ export default function Item() {
 								<p>Lengte: {item.lengte} cm</p>
 								<p>Breedte: {item.breedte} cm</p>
 								<p>Productie datum: {item.productieDatum}</p>
+								<p>Aangeboden door: {item.aanbieder_naam}</p>
 							</Card.Body>
 						</Card>
 					) : (
