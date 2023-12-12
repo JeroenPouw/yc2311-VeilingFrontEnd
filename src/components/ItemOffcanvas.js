@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import ItemForm from "./ItemForm";
+import VeilingForm from "./VeilingForm";
+import VeilingCards from "./VeilingCards";
 
 export default function ItemOffcanvas({ item }) {
 	const [show, setShow] = useState(false);
@@ -9,15 +11,25 @@ export default function ItemOffcanvas({ item }) {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	// showAlert state and showAlertHandler to toggle it
-	const [showAlert, setShowAlert] = useState(false);
-	const showAlertHandler = () => setShowAlert(true);
-	const [message, setMessage] = useState("");
+	const handleButtonClick = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		handleShow();
+		console.log(item);
+	};
+
+	const handleCardClick = (e) => {
+		e.stopPropagation();
+	};
 
 	return (
 		<>
-			<Button variant="primary" onClick={handleShow}>
-				Toon details
+			<Button
+				variant="secondary"
+				onClick={handleButtonClick}
+				className="ml-auto"
+			>
+				✎
 			</Button>
 
 			<Offcanvas show={show} onHide={handleClose} placement="end">
@@ -26,6 +38,11 @@ export default function ItemOffcanvas({ item }) {
 				</Offcanvas.Header>
 				<Offcanvas.Body>
 					<ItemForm veilingstuk={item} />
+					{item.veilingen.length == 0 ? (
+						<VeilingForm item={item} />
+					) : (
+						<VeilingCards veilingen={item.veilingen} />
+					)}
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>

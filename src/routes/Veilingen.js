@@ -1,94 +1,44 @@
-import React, { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export default function Veilingen() {
-	const [duratie, setDuratie] = useState("");
-	const [openingsBod, setOpeningsBod] = useState("");
-	const [minimumBod, setMinimumBod] = useState("");
-	const [csharpUitkomst, setCSharpUitkomst] = useState([]);
+export default () => {
+	const [veilingen, setVeilingen] = useState([]);
 
-	const handleAddClick = async () => {
-		console.log("Voeg toe");
-		const veiling = {
-			Duratie: duratie,
-			OpeningsBod: openingsBod,
-			MinimumBod: minimumBod,
-		};
-
-		const veilingjson = JSON.stringify(veiling);
-		console.log(veilingjson);
-
-		try {
-			const response = await fetch("https://localhost:7252/api/Veiling", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: veilingjson,
-			});
-		} catch (error) {
-			console.error("Error:", error);
-			// Handle error
-		}
+	const getVeilingen = () => {
+		fetch("http://localhost:8082/veilingen")
+			.then((r) => r.json())
+			.then((d) => setVeilingen(d));
 	};
 
-	const handleTestClick = async () => {
-		try {
-			const response = await fetch("https://localhost:7252/api/Veiling");
-			const data = await response.json();
-			setCSharpUitkomst(data);
-		} catch (error) {
-			console.error("Error:", error);
-			// Handle error
-		}
-	};
-
+	useEffect(() => {
+		getVeilingen();
+	}, []);
 	return (
-		<Container>
-			<h1>Huidige Veiling</h1>
-			<Form>
-				<Form.Group controlId="InvoerDuratie">
-					<Form.Label>Duratie:</Form.Label>
-					<Form.Control
-						type="text"
-						value={duratie}
-						onChange={(e) => setDuratie(e.target.value)}
-					/>
-				</Form.Group>
-
-				<Form.Group controlId="InvoerOpeningsbod">
-					<Form.Label>Openingsbod:</Form.Label>
-					<Form.Control
-						type="text"
-						value={openingsBod}
-						onChange={(e) => setOpeningsBod(e.target.value)}
-					/>
-				</Form.Group>
-
-				<Form.Group controlId="InvoerMinimumbod">
-					<Form.Label>Minimumbod:</Form.Label>
-					<Form.Control
-						type="text"
-						value={minimumBod}
-						onChange={(e) => setMinimumBod(e.target.value)}
-					/>
-				</Form.Group>
-
-				<div className="mt-2">
-					<Button className="me-2" variant="primary" onClick={handleAddClick}>
-						Add
-					</Button>
-					<Button variant="secondary" onClick={handleTestClick}>
-						push
-					</Button>
-				</div>
-			</Form>
-
-			<div>
-				{csharpUitkomst.map((item, index) => (
-					<p key={index}>{item.duratie}</p>
+		<Container className="mt-3">
+			<Row>
+				{veilingen.map((veiling, index) => (
+					<Col key={index} xs={12} md={6} xl={3}>
+						<Link
+							to={`/veilingstuk/${veiling.veilingstuk_id}`}
+							style={{ textDecoration: "none" }}
+						>
+							<Card className="mb-2">
+								<Card.Body>
+									<Card.Title>
+										{new Date(veiling.startDatum).toLocaleString()}
+									</Card.Title>
+									<Card.Text>
+										Duratie: {veiling.duratieInSeconden} seconden <br />
+										Openings bod: €{veiling.openingsBodInEuros} <br />
+										Laatste bod: €{veiling.laatsteBodInEuros}
+									</Card.Text>
+								</Card.Body>
+							</Card>
+						</Link>
+					</Col>
 				))}
-			</div>
+			</Row>
 		</Container>
 	);
-}
+};
