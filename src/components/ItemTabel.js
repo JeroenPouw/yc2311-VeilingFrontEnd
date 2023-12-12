@@ -28,6 +28,7 @@ export default function ItemTabel({ data }) {
 							<th key={index}>{item}</th>
 						))} */}
 					<th>ID</th>
+					<th>Veilingen</th>
 					<th>Naam</th>
 					<th>Categorie</th>
 					<th>Productie datum</th>

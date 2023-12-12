@@ -46,6 +46,30 @@ export default function Item() {
 						<p>Loading...</p>
 					)}
 				</Col>
+				<Col lg={4}>
+					<div className="mt-3 mt-lg-0">
+						<h3>Veilingen</h3>
+						{item && item.veilingen && item.veilingen.length > 0 ? (
+							item.veilingen.map((veiling, index) => (
+								<Card key={index} className="my-3">
+									<Card.Body>
+										<Card.Title>Begint om {veiling.startDatum}</Card.Title>
+										<Card.Text>
+											Duratie: {veiling.duratieInSeconden} seconden
+										</Card.Text>
+										<ul>
+											<li>Openings bod: €{veiling.openingsBodInEuros}</li>
+											<li>Laatste bod: €{veiling.laatsteBodInEuros}</li>
+											<li>Minimum bod: €{veiling.minimumBodInEuros}</li>
+										</ul>
+									</Card.Body>
+								</Card>
+							))
+						) : (
+							<p>Geen veilingen beschikbaar voor dit item.</p>
+						)}
+					</div>
+				</Col>
 			</Row>
 		</Container>
 	);
