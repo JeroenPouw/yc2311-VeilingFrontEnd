@@ -37,6 +37,8 @@ export default function ItemTabel({ data }) {
 					<th>Breedte</th>
 					<th>Lengte</th>
 					<th>Hoogte</th>
+					<th></th>
+					<th>Aanbieder</th>
 				</tr>
 			</thead>
 			<tbody>

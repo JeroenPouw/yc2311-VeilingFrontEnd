@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AccountTabel from "../components/AccountTabel";
 import ItemTabel from "../components/ItemTabel";
 
-export default function ItemComponent() {
+export default function AdminItems() {
 	const [items, setItems] = useState([]);
 
 	const getItems = () => {

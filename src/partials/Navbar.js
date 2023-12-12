@@ -19,15 +19,21 @@ export default function TopNav() {
 						<LinkContainer to={"/"}>
 							<Nav.Link>Home</Nav.Link>
 						</LinkContainer>
-						<LinkContainer to={"/admin/items"}>
-							<Nav.Link>Items</Nav.Link>
-						</LinkContainer>
-						<LinkContainer to={"/admin/veilingen"}>
+						<LinkContainer to={"/veilingen"}>
 							<Nav.Link>Veilingen</Nav.Link>
 						</LinkContainer>
-						<LinkContainer to={"/admin/accounts"}>
-							<Nav.Link>Accounts</Nav.Link>
-						</LinkContainer>
+
+						<NavDropdown title="Admin" id="basic-nav-dropdown" align="start">
+							<LinkContainer to={"/admin/items"}>
+								<NavDropdown.Item>Items</NavDropdown.Item>
+							</LinkContainer>
+							<LinkContainer to={"/admin/veilingen"}>
+								<NavDropdown.Item>Veilingen</NavDropdown.Item>
+							</LinkContainer>
+							<LinkContainer to={"/admin/accounts"}>
+								<NavDropdown.Item>Accounts</NavDropdown.Item>
+							</LinkContainer>
+						</NavDropdown>
 					</Nav>
 					<Nav className="ms-auto">
 						<NavDropdown title="Account" id="basic-nav-dropdown" align="end">

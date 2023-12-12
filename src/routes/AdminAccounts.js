@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AccountTabel from "../components/AccountTabel";
 
-export default function AccountComponent() {
+export default function AdminAccounts() {
 	const [accounts, setAccounts] = useState([]);
 
 	const getAccounts = () => {

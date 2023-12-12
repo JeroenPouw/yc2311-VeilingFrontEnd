@@ -156,7 +156,7 @@ export default function ItemForm({ veilingstuk }) {
 									onClick={() => {
 										if (
 											window.confirm(
-												"Weet u zeker dat u dit Item wilt verwijderen?"
+												"Weet u zeker dat u dit item wilt verwijderen?"
 											) == true
 										) {
 											deleteItem();
