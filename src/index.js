@@ -15,6 +15,7 @@ import Registreren from "./routes/Registreren";
 import Inloggen from "./routes/Inloggen";
 import Accounts from "./routes/Accounts";
 import DefaultAdminPage from "./routes/DefaultAdminPage";
+import ItemDetails from "./components/ItemDetails";
 
 const router = createBrowserRouter([
 	{
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
 			{
 				path: "/persoonlijke-homepage",
 				element: <PersoonlijkeHomepage />,
+			},
+			{
+				path: "/veilingstuk/:id",
+				element: <ItemDetails />,
 			},
 		],
 	},
