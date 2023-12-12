@@ -146,7 +146,7 @@ export default function ItemForm({ veilingstuk }) {
 									onChange={handleChange}
 									id="gewicht"
 								/>
-								<InputGroup.Text>kg</InputGroup.Text>
+								<InputGroup.Text>g</InputGroup.Text>
 							</InputGroup>
 						</Form.Group>
 						<Row className="justify-items-between">
