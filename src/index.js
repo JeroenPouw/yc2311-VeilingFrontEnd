@@ -7,15 +7,16 @@ import Root from "./routes/root";
 import ErrorPage from "./Error";
 import App from "./routes/App";
 import Profiel from "./routes/Profiel";
-import Items from "./routes/Items";
-import Veilingen from "./routes/Veilingen";
+import AdminItems from "./routes/AdminItems";
+import AdminVeilingen from "./routes/AdminVeilingen";
 import AdminPortal from "./routes/AdminPortal";
 import PersoonlijkeHomepage from "./routes/PersoonlijkeHomepage";
 import Registreren from "./routes/Registreren";
 import Inloggen from "./routes/Inloggen";
-import Accounts from "./routes/Accounts";
+import AdminAccounts from "./routes/AdminAccounts";
 import DefaultAdminPage from "./routes/DefaultAdminPage";
 import ItemDetails from "./components/ItemDetails";
+import Veilingen from "routes/Veilingen";
 
 const router = createBrowserRouter([
 	{
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 				element: <Profiel />,
 			},
 			{
+				path: "/veilingen",
+				element: <Veilingen />,
+			},
+			{
 				path: "/admin",
 				element: <AdminPortal children={undefined} />,
 				children: [
@@ -41,15 +46,15 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "/admin/veilingen",
-						element: <Veilingen />,
+						element: <AdminVeilingen />,
 					},
 					{
 						path: "/admin/accounts",
-						element: <Accounts />,
+						element: <AdminAccounts />,
 					},
 					{
 						path: "/admin/items",
-						element: <Items />,
+						element: <AdminItems />,
 					},
 				],
 			},
