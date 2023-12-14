@@ -6,7 +6,7 @@ export default function Inloggen() {
 	const navigate = useNavigate();
 	const openHomepage = (userID) => {
 		if (userID) {
-			navigate(`/persoonlijke-homepage`, {
+			navigate(`/profiel`, {
 				state: { id: Math.floor(Math.random() * 10) },
 			});
 		} else {

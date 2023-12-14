@@ -39,7 +39,11 @@ export default function Item() {
 								<p>Hoogte: {item.hoogte} cm</p>
 								<p>Lengte: {item.lengte} cm</p>
 								<p>Breedte: {item.breedte} cm</p>
-								<p>Productie datum: {item.productieDatum}</p>
+								{/* <p>Productie datum: {item.productieDatum}</p> */}
+								<p>
+									Productie datum:{" "}
+									{new Date(item.productieDatum).toLocaleDateString()}
+								</p>
 								<p>Aangeboden door: {item.aanbieder_naam}</p>
 							</Card.Body>
 						</Card>
@@ -54,7 +58,9 @@ export default function Item() {
 							item.veilingen.map((veiling, index) => (
 								<Card key={index} className="my-3">
 									<Card.Body>
-										<Card.Title>Begint om {veiling.startDatum}</Card.Title>
+										<Card.Title>
+											Begint om {new Date(veiling.startDatum).toLocaleString()}
+										</Card.Title>
 										<Card.Text>
 											Duratie: {veiling.duratieInSeconden} seconden
 										</Card.Text>

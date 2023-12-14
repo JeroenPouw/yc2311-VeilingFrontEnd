@@ -44,10 +44,10 @@ export default function TopNav() {
 								<NavDropdown.Item>Registreren</NavDropdown.Item>
 							</LinkContainer>
 							<NavDropdown.Divider />
-							<LinkContainer to={"/profiel"}>
+							<LinkContainer to={"/profiel"} state={{ id: 5 }}>
 								<NavDropdown.Item>Mijn profiel</NavDropdown.Item>
 							</LinkContainer>
-							<LinkContainer to={"/persoonlijke-homepage"}>
+							<LinkContainer to={"/persoonlijke-homepage"} state={{ id: 5 }}>
 								<NavDropdown.Item>Mijn homepage</NavDropdown.Item>
 							</LinkContainer>
 							<NavDropdown.Item href="#">Uitloggen</NavDropdown.Item>

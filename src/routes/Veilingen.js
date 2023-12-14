@@ -31,7 +31,11 @@ export default () => {
 									<Card.Text>
 										Duratie: {veiling.duratieInSeconden} seconden <br />
 										Openings bod: €{veiling.openingsBodInEuros} <br />
-										Laatste bod: €{veiling.laatsteBodInEuros}
+										{veiling.laatsteBodInEuros > 0 ? (
+											<span>Laatste bod: €{veiling.laatsteBodInEuros}</span>
+										) : (
+											<span>Nog geen biedingen!</span>
+										)}
 									</Card.Text>
 								</Card.Body>
 							</Card>
