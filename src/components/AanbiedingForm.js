@@ -5,15 +5,13 @@ import {
 	Col,
 	Button,
 	Form,
-	Alert,
 	InputGroup,
 	Card,
 } from "react-bootstrap";
 import AlertSuccess from "./AlertSuccess";
-import { useNavigate } from "react-router";
+import ImageUploader from "./ImageUploader";
 
 export default function AanbiedingForm({ account }) {
-	const navigate = useNavigate();
 	const [item, setItem] = useState({
 		naam: "",
 		categorie: "",
@@ -23,6 +21,7 @@ export default function AanbiedingForm({ account }) {
 		breedte: "",
 		lengte: "",
 		hoogte: "",
+		fotos: [],
 	});
 	// showAlert state and showAlertHandler to toggle it
 	const [showAlert, setShowAlert] = useState(false);

@@ -20,9 +20,11 @@ export default function PersoonlijkeHomepage() {
 				} else {
 					// Handle error cases here
 					console.error("Failed to fetch user data");
+					setUser(null);
 				}
 			} catch (error) {
 				console.error("Error fetching user data:", error);
+				setUser(null);
 			}
 		}
 
@@ -52,25 +54,36 @@ export default function PersoonlijkeHomepage() {
 
 	return (
 		<Container fluid className="mt-2">
-			<h1 className="text-center">Welkom, {user.naam}</h1>
-			<Row id="item-container">
-				{items &&
-					items.map((item) => {
-						const isFavoriet =
-							user &&
-							user.favorieten &&
-							Array.isArray(user.favorieten) &&
-							user.favorieten.some((favItem) => favItem.id === item.id);
-						return (
-							<ItemCard
-								key={item.id}
-								user={user}
-								item={item}
-								isFavoriet={isFavoriet}
-							/>
-						);
-					})}
-			</Row>
+			{user != null && <h1 className="text-center">Welkom, {user.naam}</h1>}
+			{user != null ? (
+				<>
+					<Row id="item-container">
+						{items &&
+							items.map((item) => {
+								const isFavoriet =
+									user &&
+									user.favorieten &&
+									Array.isArray(user.favorieten) &&
+									user.favorieten.some((favItem) => favItem.id === item.id);
+								return (
+									<ItemCard
+										key={item.id}
+										user={user}
+										item={item}
+										isFavoriet={isFavoriet}
+									/>
+								);
+							})}
+					</Row>
+				</>
+			) : (
+				<Row id="item-container">
+					{items &&
+						items.map((item) => {
+							return <ItemCard key={item.id} item={item} />;
+						})}
+				</Row>
+			)}
 		</Container>
 	);
 }

@@ -14,8 +14,17 @@ export default function ItemCard({ user = null, item, isFavoriet = null }) {
 		}
 	};
 	return (
-		<Col key={item.id} xs={12} md={6} xl={3}>
+		<Col key={item.id} xs={12} sm={6} md={4} xl={3}>
 			<Card className="m-2">
+				{item.fotos.length > 0 && (
+					<Card.Img
+						variant="top"
+						src={item.fotos[0].url}
+						alt={item.fotos[0].altText}
+						onClick={handleCardClick}
+						style={{ cursor: "pointer" }}
+					/>
+				)}
 				<Card.Body>
 					<Row className="justify-content-between">
 						<Col xs={9} onClick={handleCardClick} style={{ cursor: "pointer" }}>
@@ -24,7 +33,7 @@ export default function ItemCard({ user = null, item, isFavoriet = null }) {
 								{item.categorie}
 							</Card.Subtitle>
 						</Col>
-						<Col className="text-end">
+						<Col xs={3} className="text-end">
 							{user != null &&
 								(user.id == item.aanbieder_id ? (
 									<ItemOffcanvas item={item} />
