@@ -17,7 +17,7 @@ import AdminAccounts from "./routes/AdminAccounts";
 import DefaultAdminPage from "./routes/DefaultAdminPage";
 import ItemDetails from "./routes/ItemDetails";
 import Veilingen from "routes/Veilingen";
-import ImageUploader from "routes/ImageUploader";
+import ImageUploader from "components/ImageUploader";
 
 const router = createBrowserRouter([
 	{
@@ -36,10 +36,6 @@ const router = createBrowserRouter([
 			{
 				path: "/veilingen",
 				element: <Veilingen />,
-			},
-			{
-				path: "/upload",
-				element: <ImageUploader />,
 			},
 			{
 				path: "/admin",

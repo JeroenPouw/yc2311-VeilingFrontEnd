@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 export default function Item() {
@@ -31,6 +31,26 @@ export default function Item() {
 				<Col lg={8}>
 					{item ? (
 						<Card>
+							{item.fotos.length > 0 && (
+								<Carousel>
+									{item.fotos.map((img, index) => (
+										<Carousel.Item>
+											<Card.Img
+												variant="top"
+												src={img.url}
+												alt={img.altText}
+												key={index}
+											/>
+											<Carousel.Caption>
+												<small>
+													Image {index + 1}: {img.altText}
+												</small>
+											</Carousel.Caption>
+										</Carousel.Item>
+									))}
+								</Carousel>
+							)}
+
 							<Card.Body>
 								<h1>{item.naam}</h1>
 								<h2>{item.categorie}</h2>
@@ -58,6 +78,7 @@ export default function Item() {
 							item.veilingen.map((veiling, index) => (
 								<Card key={index} className="my-3">
 									<Card.Body>
+										{/* <Card.Title>Begint om {veiling.startDatum}</Card.Title> */}
 										<Card.Title>
 											Begint om {new Date(veiling.startDatum).toLocaleString()}
 										</Card.Title>

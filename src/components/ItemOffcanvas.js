@@ -4,6 +4,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import ItemForm from "./ItemForm";
 import VeilingForm from "./VeilingForm";
 import VeilingCards from "./VeilingCards";
+import ImageUploader from "./ImageUploader";
 
 export default function ItemOffcanvas({ item }) {
 	const [show, setShow] = useState(false);
@@ -38,6 +39,7 @@ export default function ItemOffcanvas({ item }) {
 				</Offcanvas.Header>
 				<Offcanvas.Body>
 					<ItemForm veilingstuk={item} />
+					<ImageUploader item={item} />
 					{item.veilingen.length == 0 ? (
 						<VeilingForm item={item} />
 					) : (

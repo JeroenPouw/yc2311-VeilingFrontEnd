@@ -6,15 +6,15 @@ import { useLocation } from "react-router-dom";
 export default function Profiel() {
 	const location = useLocation();
 	const [user, setUser] = useState({
-		id: 22,
+		id: 0,
 		favorieten: [],
 		aangeboden: [],
-		email: "example@email.com",
-		password: "123",
-		naam: "John Doe",
-		telefoon: "0699999991",
-		plaats: "Den Haag",
-		postcode: "2433HH",
+		email: "",
+		password: "",
+		naam: "",
+		telefoon: "",
+		plaats: "",
+		postcode: "",
 	});
 
 	useEffect(() => {
@@ -34,7 +34,6 @@ export default function Profiel() {
 				console.error("Error fetching user data:", error);
 			}
 		}
-
 		if (location.state?.id) {
 			getAccount();
 		}

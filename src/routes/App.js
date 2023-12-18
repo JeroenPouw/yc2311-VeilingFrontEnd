@@ -16,12 +16,7 @@ function App() {
 		}
 	}, [location.state]); // Voeg location.state toe aan de afhankelijkheden van useEffect
 
-	return (
-		<Container>
-			{!ingelogd && <Homepage />}
-			{ingelogd && <PersoonlijkeHomepage />}
-		</Container>
-	);
+	return <Homepage />;
 }
 
 export default App;

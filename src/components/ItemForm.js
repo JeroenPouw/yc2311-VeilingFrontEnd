@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AlertSuccess from "./AlertSuccess";
+import ImageUploader from "./ImageUploader";
 
 export default function ItemForm({ veilingstuk }) {
 	const navigate = useNavigate();
