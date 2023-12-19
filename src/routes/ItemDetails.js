@@ -1,10 +1,46 @@
+import FavorietButton from "components/FavorietButton";
+import ItemOffcanvas from "components/ItemOffcanvas";
+import VeilingCard from "components/VeilingCard";
 import React, { useState, useEffect } from "react";
-import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import {
+	Button,
+	Card,
+	Carousel,
+	Col,
+	Container,
+	Form,
+	InputGroup,
+	Row,
+} from "react-bootstrap";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function Item() {
 	const { id } = useParams();
 	const [item, setItem] = useState(null);
+	const [user, setUser] = useState(null);
+	const location = useLocation();
+
+	useEffect(() => {
+		async function getAccount() {
+			try {
+				const response = await fetch(
+					`http://localhost:8082/account/${location.state?.id}`
+				);
+				if (response.ok) {
+					const data = await response.json();
+					setUser(data);
+				} else {
+					// Handle error cases here
+					console.error("Failed to fetch user data");
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		}
+		if (location.state?.id) {
+			getAccount();
+		}
+	}, [location.state]);
 
 	useEffect(() => {
 		const fetchItem = async () => {
@@ -22,7 +58,7 @@ export default function Item() {
 		};
 		fetchItem();
 		console.log(item);
-	}, [id, item]);
+	}, [id]);
 
 	return (
 		<Container className="mt-4">
@@ -51,10 +87,35 @@ export default function Item() {
 							)}
 
 							<Card.Body>
-								<h1>{item.naam}</h1>
-								<h2>{item.categorie}</h2>
+								<Row className="justify-content-between">
+									<Col xs={9}>
+										<Card.Title>{item.naam}</Card.Title>
+										<Card.Subtitle className="mb-2 text-muted">
+											{item.categorie}
+										</Card.Subtitle>
+									</Col>
+									<Col xs={3} className="text-end">
+										{user != null &&
+											(user.id == item.aanbieder_id ? (
+												<ItemOffcanvas item={item} />
+											) : (
+												<FavorietButton
+													accountID={user.id}
+													itemID={item.id}
+													isFav={
+														user &&
+														user.favorieten &&
+														Array.isArray(user.favorieten) &&
+														user.favorieten.some(
+															(favItem) => favItem.id === item.id
+														)
+													}
+												/>
+											))}
+									</Col>
+								</Row>
 								<p>{item.beschrijving}</p>
-								<p>Gewicht: {item.gewicht}g</p>
+								<p>Gewicht: {item.gewicht} g</p>
 								<p>Hoogte: {item.hoogte} cm</p>
 								<p>Lengte: {item.lengte} cm</p>
 								<p>Breedte: {item.breedte} cm</p>
@@ -75,22 +136,7 @@ export default function Item() {
 						<h3>Veilingen</h3>
 						{item && item.veilingen && item.veilingen.length > 0 ? (
 							item.veilingen.map((veiling, index) => (
-								<Card key={index} className="my-3">
-									<Card.Body>
-										{/* <Card.Title>Begint om {veiling.startDatum}</Card.Title> */}
-										<Card.Title>
-											Begint om {new Date(veiling.startDatum).toLocaleString()}
-										</Card.Title>
-										<Card.Text>
-											Duratie: {veiling.duratieInSeconden} seconden
-										</Card.Text>
-										<ul>
-											<li>Openings bod: €{veiling.openingsBodInEuros}</li>
-											<li>Laatste bod: €{veiling.laatsteBodInEuros}</li>
-											<li>Minimum bod: €{veiling.minimumBodInEuros}</li>
-										</ul>
-									</Card.Body>
-								</Card>
+								<VeilingCard veiling={veiling} index={index} />
 							))
 						) : (
 							<p>Geen veilingen beschikbaar voor dit item.</p>

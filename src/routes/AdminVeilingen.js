@@ -1,4 +1,4 @@
-import VeilingCards from "components/VeilingCards";
+import VeilingCards from "components/VeilingFormCards";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
