@@ -23,7 +23,7 @@ export default function ProfielTabs({ user }) {
 			case "favorieten":
 				return <ProfielFavorieten user={user} />;
 			default:
-				return null;
+				return <ProfielAanbiedingen user={user} />;
 		}
 	};
 

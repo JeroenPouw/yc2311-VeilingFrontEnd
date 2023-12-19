@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 export default function Item() {
 	const { id } = useParams();
 	const [item, setItem] = useState(null);
-	const [aanbieder, setAanbieder] = useState(null);
 
 	useEffect(() => {
 		const fetchItem = async () => {
@@ -23,7 +22,7 @@ export default function Item() {
 		};
 		fetchItem();
 		console.log(item);
-	}, [id]);
+	}, [id, item]);
 
 	return (
 		<Container className="mt-4">

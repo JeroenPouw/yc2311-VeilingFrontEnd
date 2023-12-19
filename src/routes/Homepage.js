@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Nav, NavItem, NavLink, Row } from "react-bootstrap";
+import { Col, Container, Nav, NavItem, NavLink, Row } from "react-bootstrap";
 import ItemCard from "../components/ItemCard";
 import { useLocation } from "react-router-dom";
 
@@ -112,8 +112,8 @@ export default function Homepage() {
 			</Nav>
 
 			{user != null ? (
-				<>
-					<Row id="item-container">
+				<div className="m-3">
+					<Row xs={1} sm={2} md={3} lg={4} xxl={5} className="g-4">
 						{items &&
 							items.map((item) => {
 								const isFavoriet =
@@ -122,23 +122,26 @@ export default function Homepage() {
 									Array.isArray(user.favorieten) &&
 									user.favorieten.some((favItem) => favItem.id === item.id);
 								return (
-									<ItemCard
-										key={item.id}
-										user={user}
-										item={item}
-										isFavoriet={isFavoriet}
-									/>
+									<Col key={item.id}>
+										<ItemCard user={user} item={item} isFavoriet={isFavoriet} />
+									</Col>
 								);
 							})}
 					</Row>
-				</>
+				</div>
 			) : (
-				<Row id="item-container">
-					{items &&
-						items.map((item) => {
-							return <ItemCard key={item.id} item={item} />;
-						})}
-				</Row>
+				<div className="m-3">
+					<Row xs={1} sm={2} md={3} lg={4} xxl={5} className="g-4">
+						{items &&
+							items.map((item) => {
+								return (
+									<Col key={item.id}>
+										<ItemCard user={user} item={item} />
+									</Col>
+								);
+							})}
+					</Row>
+				</div>
 			)}
 		</>
 	);
