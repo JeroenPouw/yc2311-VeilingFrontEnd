@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import ItemCard from "./ItemCard";
 import AanbiedingForm from "./AanbiedingForm";
-import AlertSuccess from "./AlertSuccess";
+import AlertSuccess from "./AlertMessage";
+import AlertMessage from "./AlertMessage";
 
 export default function ProfielAanbiedingen({ user }) {
 	const [toonForm, setToonForm] = useState(false);
@@ -43,7 +44,7 @@ export default function ProfielAanbiedingen({ user }) {
 	return (
 		<Container className="mt-4">
 			{showAlert && (
-				<AlertSuccess
+				<AlertMessage
 					showAlert={showAlert}
 					setShowAlert={setShowAlert}
 					message={successMessage}
@@ -61,22 +62,26 @@ export default function ProfielAanbiedingen({ user }) {
 			{toonForm && (
 				<AanbiedingForm user={user} onFormSubmitted={handleFormSubmitted} />
 			)}
-			{items &&
-				items.map((item) => {
-					const isFavoriet =
-						user &&
-						user.favorieten &&
-						Array.isArray(user.favorieten) &&
-						user.favorieten.some((favItem) => favItem.id === item.id);
-					return (
-						<ItemCard
-							key={item.id}
-							user={user}
-							item={item}
-							isFavoriet={isFavoriet}
-						/>
-					);
-				})}
+			<div className="m-3">
+				<Row xs={1} sm={1} md={2} lg={3} xxl={4} className="g-0">
+					{items &&
+						items.map((item) => {
+							const isFavoriet =
+								user &&
+								user.favorieten &&
+								Array.isArray(user.favorieten) &&
+								user.favorieten.some((favItem) => favItem.id === item.id);
+							return (
+								<ItemCard
+									key={item.id}
+									user={user}
+									item={item}
+									isFavoriet={isFavoriet}
+								/>
+							);
+						})}
+				</Row>
+			</div>
 		</Container>
 	);
 }

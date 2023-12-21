@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Container, Row, Col, InputGroup, Button, Form } from "react-bootstrap";
-import AlertSuccess from "./AlertSuccess";
+import AlertSuccess from "./AlertMessage";
 
 export default function VeilingForm({ item }) {
 	const [veiling, setVeiling] = useState({
 		veilingstukId: item.id,
 		startDatum: "2023-12-12T09:00:00",
 		duratieInSeconden: 3600,
-		openingsBodInEuros: 100,
+		openingsBodInEuro: 100,
 	});
 	// showAlert state and showAlertHandler to toggle it
 	const [showAlert, setShowAlert] = useState(false);
@@ -81,7 +81,7 @@ export default function VeilingForm({ item }) {
 							<InputGroup>
 								<Form.Control
 									type="number"
-									value={veiling.openingsBodInEuros}
+									value={veiling.openingsBodInEuro}
 									onChange={handleChange}
 									id="openingsBodInEuros"
 								/>

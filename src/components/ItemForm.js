@@ -9,8 +9,8 @@ import {
 	InputGroup,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import AlertSuccess from "./AlertSuccess";
 import ImageUploader from "./ImageUploader";
+import AlertMessage from "./AlertMessage";
 
 export default function ItemForm({ veilingstuk }) {
 	const navigate = useNavigate();
@@ -66,10 +66,11 @@ export default function ItemForm({ veilingstuk }) {
 			<Row>
 				<h1 className="text-center">{veilingstuk.naam}</h1>
 			</Row>
-			<AlertSuccess
+			<AlertMessage
 				showAlert={showAlert}
 				setShowAlert={setShowAlert}
 				message={message}
+				variant="success"
 			/>
 			<Row className="mt-3">
 				<Col xs={10} className="m-auto mb-3">

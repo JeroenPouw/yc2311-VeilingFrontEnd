@@ -8,7 +8,7 @@ import {
 	InputGroup,
 	Card,
 } from "react-bootstrap";
-import AlertSuccess from "./AlertSuccess";
+import AlertMessage from "./AlertMessage";
 
 export default function AanbiedingForm({ user, onFormSubmitted }) {
 	const [item, setItem] = useState({
@@ -177,7 +177,7 @@ export default function AanbiedingForm({ user, onFormSubmitted }) {
 									</Row>
 								</>
 							) : (
-								<AlertSuccess
+								<AlertMessage
 									showAlert={true}
 									setShowAlert={setShowAlert}
 									message={

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import AlertSuccess from "./AlertSuccess";
+import AlertMessage from "./AlertMessage";
 
 export default function AccountForm({ acc }) {
 	const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function AccountForm({ acc }) {
 
 	return (
 		<Container>
-			<AlertSuccess
+			<AlertMessage
 				showAlert={showAlert}
 				setShowAlert={setShowAlert}
 				message={message}
