@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import AccountTabel from "../components/AccountTabel";
 import ItemTabel from "../components/ItemTabel";
+import Error from "../partials/Error";
 
 export default function AdminItems() {
 	const [items, setItems] = useState([]);
@@ -17,7 +17,11 @@ export default function AdminItems() {
 
 	return (
 		<div>
-			<ItemTabel data={items} />
+			{items.length > 0 ? (
+				<ItemTabel data={items} />
+			) : (
+				<Error message="Geen items gevonden." />
+			)}
 		</div>
 	);
 }

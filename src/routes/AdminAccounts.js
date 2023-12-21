@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AccountTabel from "../components/AccountTabel";
+import Error from "../partials/Error";
 
 export default function AdminAccounts() {
 	const [accounts, setAccounts] = useState([]);
@@ -16,7 +17,11 @@ export default function AdminAccounts() {
 
 	return (
 		<div>
-			<AccountTabel data={accounts} />
+			{accounts.length > 0 ? (
+				<AccountTabel data={accounts} />
+			) : (
+				<Error message="Geen accounts gevonden." />
+			)}
 		</div>
 	);
 }
