@@ -9,10 +9,6 @@ export default function ItemTabel({ data }) {
 		// Check if the value is an object, if so, stringify it
 		if (typeof value === "object") {
 			if (Array.isArray(value)) {
-				// If it's an array, return its length
-				if (value[0].url) {
-					console.log("foto");
-				}
 				return value.length;
 			} else {
 				return JSON.stringify(value);

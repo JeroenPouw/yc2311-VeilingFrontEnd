@@ -7,12 +7,14 @@ import ItemOffcanvas from "./ItemOffcanvas";
 export default function ItemCard({ user = null, item, isFavoriet = null }) {
 	const navigate = useNavigate();
 	const location = useLocation();
+
 	const handleCardClick = () => {
 		navigate(`/veilingstuk/${item.id}`);
 		if (user) {
 			location.state.id = user.id;
 		}
 	};
+
 	return (
 		// <Col key={item.id} xs={12} sm={6} md={4} xl={3}>
 		<Card className="">

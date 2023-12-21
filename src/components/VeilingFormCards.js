@@ -18,7 +18,7 @@ export default function VeilingCards({ veilingen }) {
 						</Card.Title>
 						<Card.Text>
 							Duratie: {veiling.duratieInSeconden} seconden <br />
-							Openings bod: €{veiling.openingsBodInEuros}
+							Openings bod: €{veiling.openingsBodInEuro}
 						</Card.Text>
 
 						<Button

@@ -2,19 +2,10 @@ import FavorietButton from "components/FavorietButton";
 import ItemOffcanvas from "components/ItemOffcanvas";
 import VeilingCard from "components/VeilingCard";
 import React, { useState, useEffect } from "react";
-import {
-	Button,
-	Card,
-	Carousel,
-	Col,
-	Container,
-	Form,
-	InputGroup,
-	Row,
-} from "react-bootstrap";
+import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
 
-export default function Item() {
+export default function ItemDetails() {
 	const { id } = useParams();
 	const [item, setItem] = useState(null);
 	const [user, setUser] = useState(null);
@@ -51,13 +42,11 @@ export default function Item() {
 				}
 				const data = await response.json();
 				setItem(data);
-				console.log(item);
 			} catch (error) {
 				console.error("There was a problem with the fetch operation:", error);
 			}
 		};
 		fetchItem();
-		console.log(item);
 	}, [id]);
 
 	return (
@@ -69,16 +58,11 @@ export default function Item() {
 							{item.fotos.length > 0 && (
 								<Carousel>
 									{item.fotos.map((img, index) => (
-										<Carousel.Item>
-											<Card.Img
-												variant="top"
-												src={img.url}
-												alt={img.altText}
-												key={index}
-											/>
+										<Carousel.Item key={index}>
+											<Card.Img variant="top" src={img.url} alt={img.altText} />
 											<Carousel.Caption>
 												<small>
-													Image {index + 1}: {img.altText}
+													Foto {index + 1}: {img.altText}
 												</small>
 											</Carousel.Caption>
 										</Carousel.Item>
@@ -89,9 +73,11 @@ export default function Item() {
 							<Card.Body>
 								<Row className="justify-content-between">
 									<Col xs={9}>
-										<Card.Title>{item.naam}</Card.Title>
+										<Card.Title>
+											<h3>{item.naam}</h3>
+										</Card.Title>
 										<Card.Subtitle className="mb-2 text-muted">
-											{item.categorie}
+											<h5>{item.categorie}</h5>
 										</Card.Subtitle>
 									</Col>
 									<Col xs={3} className="text-end">
@@ -136,7 +122,12 @@ export default function Item() {
 						<h3>Veilingen</h3>
 						{item && item.veilingen && item.veilingen.length > 0 ? (
 							item.veilingen.map((veiling, index) => (
-								<VeilingCard veiling={veiling} index={index} />
+								<VeilingCard
+									veilingID={veiling.id}
+									veilingProp={veiling}
+									index={index}
+									key={index}
+								/>
 							))
 						) : (
 							<p>Geen veilingen beschikbaar voor dit item.</p>
