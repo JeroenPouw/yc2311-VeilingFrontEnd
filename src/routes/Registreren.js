@@ -1,4 +1,5 @@
 import { useAuth } from "js/AuthContext";
+import { backendURL } from "js/Backend";
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +27,7 @@ export default function Registreren() {
 	const maakAccount = () => {
 		const accountJSON = JSON.stringify(account);
 		console.log(accountJSON);
-		fetch("http://localhost:8082/maak-account", {
+		fetch(`${backendURL}/maak-account`, {
 			method: "POST",
 			body: accountJSON,
 			headers: { "Content-Type": "application/json" },

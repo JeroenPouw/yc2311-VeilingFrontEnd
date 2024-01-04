@@ -1,10 +1,11 @@
+import { backendURL } from "js/Backend";
 import React from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function VeilingCards({ veilingen }) {
 	async function deleteVeiling(veilingID) {
-		await fetch(`http://localhost:8082/veiling/${veilingID}`, {
+		await fetch(`${backendURL}/veiling/${veilingID}`, {
 			method: "DELETE",
 		});
 		window.location.reload();

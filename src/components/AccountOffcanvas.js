@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAuth } from "js/AuthContext";
 import AlertMessage from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function AccountOffcanvas({ account }) {
 	const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function AccountOffcanvas({ account }) {
 
 	async function fetchToken(credentials) {
 		try {
-			const response = await fetch("http://localhost:8082/login", {
+			const response = await fetch(`${backendURL}/login`, {
 				method: "POST",
 				body: credentials,
 				headers: { "Content-Type": "application/json" },

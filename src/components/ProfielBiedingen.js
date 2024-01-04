@@ -1,3 +1,4 @@
+import { backendURL } from "js/Backend";
 import React, { useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,7 +10,7 @@ export default function ProfielBiedingen({ user }) {
 
 	async function getBiedingen() {
 		try {
-			const response = await fetch(`http://localhost:8082/account/${user.id}`);
+			const response = await fetch(`${backendURL}/account/${user.id}`);
 			if (response.ok) {
 				const data = await response.json();
 				setBiedingen(data.biedingen);

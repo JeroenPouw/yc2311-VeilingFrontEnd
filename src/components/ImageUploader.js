@@ -1,3 +1,4 @@
+import { backendURL } from "js/Backend";
 import React, { useState } from "react";
 import {
 	Button,
@@ -26,7 +27,7 @@ export default function ImageUploader({ item }) {
 
 		try {
 			const response = await fetch(
-				`http://localhost:8082/veilingstuk/${item.id}/upload`,
+				`${backendURL}/veilingstuk/${item.id}/upload`,
 				{
 					method: "POST",
 					body: formData,
@@ -66,7 +67,7 @@ export default function ImageUploader({ item }) {
 	};
 
 	async function handleDelete(fotoID) {
-		await fetch(`http://localhost:8082/foto/${fotoID}`, {
+		await fetch(`${backendURL}/foto/${fotoID}`, {
 			method: "DELETE",
 		});
 		const updatedFotos = fotos.filter((img) => img.id !== fotoID);

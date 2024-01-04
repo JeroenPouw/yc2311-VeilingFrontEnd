@@ -1,28 +1,31 @@
-import React, { useState } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { backendURL } from "js/Backend";
+import React, { useEffect, useState } from "react";
+import { Card, Container, Row } from "react-bootstrap";
 
 export default function BodCards({ veiling }) {
 	const [biedingen, setBiedingen] = useState(veiling.biedingen);
-	const [updatedVeiling, setUpdatedVeiling] = useState(veiling);
-	const navigate = useNavigate();
-	const location = useLocation();
 
 	const fetchVeiling = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:8082/veiling/${veiling.id}`
-			);
+			const response = await fetch(`${backendURL}/veiling/${veiling.id}`);
 			if (!response.ok) {
 				throw new Error("Network response was not ok");
 			}
 			const fetchedVeiling = await response.json();
 			// Update the veiling information
-			setUpdatedVeiling(fetchedVeiling);
+			setBiedingen(fetchedVeiling.biedingen);
 		} catch (error) {
 			console.error("There was a problem with the fetch operation:", error);
 		}
 	};
+
+	useEffect(() => {
+		fetchVeiling();
+		const interval = setInterval(() => fetchVeiling(), 500);
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
 	return (
 		<Container className="mt-4">
@@ -32,8 +35,8 @@ export default function BodCards({ veiling }) {
 					.reverse()
 					.map((bod, index) => {
 						return (
-							<Row>
-								<Card key={index} className="mb-2">
+							<Row key={index}>
+								<Card className="mb-2">
 									<Card.Body>
 										<Card.Title>
 											<b>{bod.bieder_naam}:</b> €{bod.prijsInEuro}
