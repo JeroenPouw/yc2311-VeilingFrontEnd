@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function AccountForm({ acc }) {
 	const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function AccountForm({ acc }) {
 	const editAccount = () => {
 		const accountJSON = JSON.stringify(account);
 		console.log(accountJSON);
-		fetch(`http://localhost:8082/account/${acc.id}`, {
+		fetch(`${backendURL}/account/${acc.id}`, {
 			method: "PUT",
 			body: accountJSON,
 			headers: { "Content-Type": "application/json" },
@@ -44,7 +45,7 @@ export default function AccountForm({ acc }) {
 	};
 
 	async function deleteAccount() {
-		await fetch(`http://localhost:8082/account/${acc.id}`, {
+		await fetch(`${backendURL}/account/${acc.id}`, {
 			method: "DELETE",
 		});
 		navigate("/");

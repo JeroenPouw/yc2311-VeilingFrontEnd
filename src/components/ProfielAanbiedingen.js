@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import ItemCard from "./ItemCard";
 import AanbiedingForm from "./AanbiedingForm";
 import AlertMessage from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function ProfielAanbiedingen({ user }) {
 	const [toonForm, setToonForm] = useState(false);
@@ -12,7 +13,7 @@ export default function ProfielAanbiedingen({ user }) {
 
 	async function getItems() {
 		try {
-			const response = await fetch(`http://localhost:8082/account/${user.id}`);
+			const response = await fetch(`${backendURL}/account/${user.id}`);
 			if (response.ok) {
 				const data = await response.json();
 				setItems(data.aangeboden);

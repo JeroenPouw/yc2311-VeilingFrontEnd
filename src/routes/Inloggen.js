@@ -1,8 +1,9 @@
 import AlertMessage from "partials/AlertMessage";
 import { useAuth } from "js/AuthContext";
 import React, { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { backendURL } from "js/Backend";
 
 export default function Inloggen() {
 	const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function Inloggen() {
 
 	async function fetchUser(currentToken) {
 		try {
-			const response = await fetch("http://localhost:8082/details", {
+			const response = await fetch(`${backendURL}/details`, {
 				headers: {
 					Authorization: `Bearer ${currentToken}`,
 				},
@@ -49,7 +50,7 @@ export default function Inloggen() {
 
 	async function fetchToken(credentials) {
 		try {
-			const response = await fetch("http://localhost:8082/login", {
+			const response = await fetch(`${backendURL}/login`, {
 				method: "POST",
 				body: credentials,
 				headers: { "Content-Type": "application/json" },
@@ -134,9 +135,17 @@ export default function Inloggen() {
 								onKeyDown={handleKeyDown}
 							/>
 						</div>
-						<button onClick={submitForm} className="btn btn-primary">
+						<Button onClick={submitForm} className="btn btn-primary">
 							Inloggen
-						</button>
+						</Button>{" "}
+						<Button
+							variant="secondary"
+							onClick={() => {
+								navigate("/registreren");
+							}}
+						>
+							Maak een account aan
+						</Button>
 					</div>
 				</div>
 			</div>

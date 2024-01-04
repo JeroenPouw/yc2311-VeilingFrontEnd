@@ -4,6 +4,7 @@ import AlertMessage from "../partials/AlertMessage";
 import BodCards from "./BodCards";
 import { useNavigate } from "react-router-dom";
 import Countdown from "react-countdown";
+import { backendURL } from "js/Backend";
 
 export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 	const navigate = useNavigate();
@@ -12,13 +13,12 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 	const [alertVariant, setAlertVariant] = useState("success");
 	const [veiling, setVeiling] = useState(veilingProp);
 	const [bod, setBod] = useState(veiling.minimumBodInEuro);
-	const [endDate, setEndDate] = useState(new Date());
+	const [winnaar, setWinnaar] = useState("");
+	const [inputBod, setInputBod] = useState(veiling.minimumBodInEuro);
 
 	const fetchVeiling = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:8082/veiling/${veilingID}`
-			);
+			const response = await fetch(`${backendURL}/veiling/${veilingID}`);
 			if (!response.ok) {
 				throw new Error("Network response was not ok");
 			}
@@ -39,12 +39,32 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 	});
 
 	useEffect(() => {
-		if (veiling.startDatum && veiling.duratieInMinuten) {
-			const end = new Date(veiling.startDatum);
-			end.setMinutes(end.getMinutes() + veiling.duratieInMinuten);
-			setEndDate(end);
+		setBod(veiling.minimumBodInEuro);
+	}, [veiling.minimumBodInEuro]);
+
+	useEffect(() => {
+		const checkWinnaar = async () => {
+			try {
+				const response = await fetch(
+					`${backendURL}/veiling/${veilingID}/winnaar`
+				);
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				const result = await response.json();
+				if (result.naam === "Geen winnaar") {
+					setWinnaar("Niemand heeft gewonnen.");
+				} else {
+					setWinnaar(`${result.naam} heeft gewonnen.`);
+				}
+			} catch (error) {
+				console.error("There was a problem with the fetch operation:", error);
+			}
+		};
+		if (veiling.veilingStatus === "CLOSED") {
+			checkWinnaar();
 		}
-	}, [veiling]);
+	}, [veiling.veilingStatus]);
 
 	async function maakBod() {
 		if (bod < veiling.minimumBodInEuro) {
@@ -53,7 +73,7 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 			setShowAlert(true);
 		} else {
 			const response = await fetch(
-				`http://localhost:8082/veiling/${veilingID}/account/${userID}/bod`,
+				`${backendURL}/veiling/${veilingID}/account/${userID}/bod`,
 				{
 					method: "POST",
 					body: JSON.stringify({ prijsInEuro: bod }),
@@ -74,17 +94,16 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 	}
 
 	function handleChange(event) {
-		setBod(event.target.value);
+		setInputBod(event.target.value);
 	}
 
 	async function handleBiedClick() {
 		if (userID === 0) {
-			navigate("/registreren");
+			navigate("/inloggen");
 		}
 		await maakBod();
 		await fetchVeiling();
-		setBod(veiling.minimumBodInEuro);
-		await fetchVeiling();
+		setInputBod(veiling.minimumBodInEuro);
 	}
 
 	return (
@@ -100,17 +119,20 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 						))}
 					{veiling.veilingStatus == "OPEN" && (
 						<h2>
-							<Countdown date={endDate} />
+							<Countdown date={veiling.eindDatum} />
 						</h2>
 					)}
 					{veiling.veilingStatus == "CLOSED" && (
-						<p>Veiling beëindigd op {new Date(endDate).toLocaleString()}</p>
+						<p>
+							Veiling beëindigd op{" "}
+							{new Date(veiling.eindDatum).toLocaleString()}
+						</p>
 					)}
 				</Card.Title>
 
 				<Card.Text>
 					Duratie: {veiling.duratieInMinuten} minuten <br />
-					Eindigt: {new Date(endDate).toLocaleString()}
+					Eindigt: {new Date(veiling.eindDatum).toLocaleString()}
 				</Card.Text>
 
 				<ul>
@@ -118,19 +140,28 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 					<li>Laatste bod: €{veiling.laatsteBodInEuro}</li>
 					<li>Minimum bod: €{veiling.minimumBodInEuro}</li>
 				</ul>
-				<InputGroup className="mb-3">
-					<InputGroup.Text>€</InputGroup.Text>
-					<Form.Control
-						type="number"
-						value={bod}
-						onChange={handleChange}
-						aria-label="Bod in euros"
-						min={veiling.minimumBodInEuro}
-					/>
-					<Button onClick={handleBiedClick} variant="outline-secondary">
-						Bied
-					</Button>
-				</InputGroup>
+				{winnaar ? (
+					<h5>{winnaar}</h5>
+				) : (
+					<InputGroup className="mb-3">
+						<InputGroup.Text>€</InputGroup.Text>
+						<Form.Control
+							type="number"
+							value={bod}
+							onChange={handleChange}
+							aria-label="Bod in euros"
+							min={veiling.minimumBodInEuro}
+							disabled={veiling.veilingStatus != "OPEN"}
+						/>
+						<Button
+							onClick={handleBiedClick}
+							variant="outline-secondary"
+							disabled={veiling.veilingStatus != "OPEN"}
+						>
+							Bied
+						</Button>
+					</InputGroup>
+				)}
 				<AlertMessage
 					showAlert={showAlert}
 					setShowAlert={setShowAlert}

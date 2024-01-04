@@ -3,13 +3,15 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Error from "../partials/Error";
 import Spinner from "partials/Spinner";
+import Countdown from "react-countdown";
+import { backendURL } from "js/Backend";
 
 export default () => {
 	const [veilingen, setVeilingen] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	async function getVeilingen() {
-		await fetch("http://localhost:8082/veilingen")
+		await fetch(`${backendURL}/veilingen`)
 			.then((r) => r.json())
 			.then((d) => setVeilingen(d));
 		setIsLoading(false);
@@ -34,10 +36,26 @@ export default () => {
 								<Card className="mb-2">
 									<Card.Body>
 										<Card.Title>
-											{new Date(veiling.startDatum).toLocaleString()}
+											{veiling.veilingStatus == "SCHEDULED" && (
+												<p>
+													Begint:{" "}
+													{new Date(veiling.startDatum).toLocaleString()}
+												</p>
+											)}
+											{veiling.veilingStatus == "OPEN" && (
+												<h2>
+													<Countdown date={veiling.eindDatum} />
+												</h2>
+											)}
+											{veiling.veilingStatus == "CLOSED" && (
+												<p>
+													Beëindigd:{" "}
+													{new Date(veiling.eindDatum).toLocaleString()}
+												</p>
+											)}
 										</Card.Title>
 										<Card.Text>
-											Duratie: {veiling.duratieInSeconden} seconden <br />
+											Duratie: {veiling.duratieInMinuten} minuten <br />
 											Openings bod: €{veiling.openingsBodInEuro} <br />
 											{veiling.laatsteBodInEuro > 0 ? (
 												<span>Laatste bod: €{veiling.laatsteBodInEuro}</span>
@@ -50,13 +68,6 @@ export default () => {
 							</Link>
 						</Col>
 					))}
-					<button
-						onClick={() => {
-							console.log(veilingen);
-						}}
-					>
-						Click
-					</button>
 				</Row>
 			) : (
 				<Error message="Geen veilingen gevonden." />

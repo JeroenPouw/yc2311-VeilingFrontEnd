@@ -1,3 +1,4 @@
+import { backendURL } from "js/Backend";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
@@ -12,7 +13,7 @@ export default function FavorietButton({ accountID, itemID, isFav }) {
 				// remove from favourites
 				try {
 					const response = await fetch(
-						`http://localhost:8082/account/${accountID}/veilingstuk/${itemID}`,
+						`${backendURL}/account/${accountID}/veilingstuk/${itemID}`,
 						{
 							method: "DELETE",
 						}
@@ -30,7 +31,7 @@ export default function FavorietButton({ accountID, itemID, isFav }) {
 				// add to favourites
 				try {
 					const response = await fetch(
-						`http://localhost:8082/account/${accountID}/veilingstuk/${itemID}`
+						`${backendURL}/account/${accountID}/veilingstuk/${itemID}`
 					);
 					if (response.ok) {
 						setIsFavoriet(true);

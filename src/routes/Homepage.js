@@ -3,6 +3,7 @@ import { Col, Container, Nav, NavItem, NavLink, Row } from "react-bootstrap";
 import ItemCard from "../components/ItemCard";
 import { useAuth } from "js/AuthContext";
 import Spinner from "partials/Spinner";
+import { backendURL } from "js/Backend";
 
 export default function Homepage() {
 	const [activeTab, setActiveTab] = useState("Alle"); // Default active tab
@@ -16,7 +17,7 @@ export default function Homepage() {
 		async function fetchUser() {
 			try {
 				if (token) {
-					const response = await fetch("http://localhost:8082/details", {
+					const response = await fetch(`${backendURL}/details`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
@@ -54,9 +55,7 @@ export default function Homepage() {
 	useEffect(() => {
 		async function getItems() {
 			try {
-				const response = await fetch(
-					`http://localhost:8082/veilingstukken/${cat}`
-				);
+				const response = await fetch(`${backendURL}/veilingstukken/${cat}`);
 				if (response.ok) {
 					const data = await response.json();
 					setItems(data);

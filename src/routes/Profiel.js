@@ -3,6 +3,7 @@ import { useAuth } from "js/AuthContext";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Spinner from "partials/Spinner";
+import { backendURL } from "js/Backend";
 
 export default function Profiel() {
 	const [user, setUser] = useState({
@@ -23,7 +24,7 @@ export default function Profiel() {
 		async function fetchUser() {
 			try {
 				if (token) {
-					const response = await fetch("http://localhost:8082/details", {
+					const response = await fetch(`${backendURL}/details`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},

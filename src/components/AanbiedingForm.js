@@ -9,6 +9,7 @@ import {
 	Card,
 } from "react-bootstrap";
 import AlertMessage from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function AanbiedingForm({ user, onFormSubmitted }) {
 	const [item, setItem] = useState({
@@ -38,20 +39,17 @@ export default function AanbiedingForm({ user, onFormSubmitted }) {
 		const itemJSON = JSON.stringify(item);
 		console.log(itemJSON);
 		if (fotoID != 0) {
-			fetch(
-				`http://localhost:8082/account/${user.id}/aanbieden/foto/${fotoID}`,
-				{
-					method: "POST",
-					body: itemJSON,
-					headers: { "Content-Type": "application/json" },
-				}
-			)
+			fetch(`${backendURL}/account/${user.id}/aanbieden/foto/${fotoID}`, {
+				method: "POST",
+				body: itemJSON,
+				headers: { "Content-Type": "application/json" },
+			})
 				.then((r) => r.json())
 				.then((d) => {
 					onFormSubmitted();
 				});
 		} else {
-			fetch(`http://localhost:8082/account/${user.id}/aanbieden`, {
+			fetch(`${backendURL}/account/${user.id}/aanbieden`, {
 				method: "POST",
 				body: itemJSON,
 				headers: { "Content-Type": "application/json" },
@@ -76,7 +74,7 @@ export default function AanbiedingForm({ user, onFormSubmitted }) {
 		formData.append("file", selectedFile);
 
 		try {
-			const response = await fetch(`http://localhost:8082/upload`, {
+			const response = await fetch(`${backendURL}/upload`, {
 				method: "POST",
 				body: formData,
 			});

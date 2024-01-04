@@ -1,6 +1,7 @@
 import FavorietButton from "components/FavorietButton";
 import ItemOffcanvas from "components/ItemOffcanvas";
 import VeilingCard from "components/VeilingCard";
+import { backendURL } from "js/Backend";
 import React, { useState, useEffect } from "react";
 import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
@@ -15,7 +16,7 @@ export default function ItemDetails() {
 		async function fetchUser() {
 			try {
 				if (token) {
-					const response = await fetch("http://localhost:8082/details", {
+					const response = await fetch(`${backendURL}/details`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
@@ -43,7 +44,7 @@ export default function ItemDetails() {
 	useEffect(() => {
 		const fetchItem = async () => {
 			try {
-				const response = await fetch(`http://localhost:8082/veilingstuk/${id}`);
+				const response = await fetch(`${backendURL}/veilingstuk/${id}`);
 				if (!response.ok) {
 					throw new Error("Network response was not ok");
 				}

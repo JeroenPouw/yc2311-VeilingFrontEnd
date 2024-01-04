@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import AccountTabel from "../components/AccountTabel";
 import Error from "../partials/Error";
 import Spinner from "partials/Spinner";
+import { backendURL } from "js/Backend";
 
 export default function AdminAccounts() {
 	const [accounts, setAccounts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	async function getAccounts() {
-		await fetch("http://localhost:8082/alle-accounts")
+		await fetch(`${backendURL}/alle-accounts`)
 			.then((r) => r.json())
 			.then((d) => setAccounts(d));
 		setIsLoading(false);

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 
 import AlertMessage from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function ItemForm({ veilingstuk }) {
 	const [item, setItem] = useState({
@@ -35,7 +36,7 @@ export default function ItemForm({ veilingstuk }) {
 	const editItem = () => {
 		const itemJSON = JSON.stringify(item);
 		console.log(itemJSON);
-		fetch(`http://localhost:8082/veilingstuk/${veilingstuk.id}`, {
+		fetch(`${backendURL}/veilingstuk/${veilingstuk.id}`, {
 			method: "PUT",
 			body: itemJSON,
 			headers: { "Content-Type": "application/json" },
@@ -45,7 +46,7 @@ export default function ItemForm({ veilingstuk }) {
 	};
 
 	async function deleteItem() {
-		await fetch(`http://localhost:8082/veilingstuk/${veilingstuk.id}`, {
+		await fetch(`${backendURL}/veilingstuk/${veilingstuk.id}`, {
 			method: "DELETE",
 		});
 		window.location.reload();
@@ -82,7 +83,7 @@ export default function ItemForm({ veilingstuk }) {
 								onChange={handleChange}
 								id="categorie"
 							>
-								<option value="" disabled selected>
+								<option value="" disabled>
 									Kies een categorie
 								</option>
 								<option value="Electronica">Electronica</option>

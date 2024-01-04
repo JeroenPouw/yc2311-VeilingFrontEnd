@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, InputGroup, Button, Form } from "react-bootstrap";
 import AlertSuccess from "../partials/AlertMessage";
+import { backendURL } from "js/Backend";
 
 export default function VeilingForm({ item }) {
 	const [veiling, setVeiling] = useState({
@@ -31,7 +32,7 @@ export default function VeilingForm({ item }) {
 	const addVeiling = () => {
 		const veilingJSON = JSON.stringify(veiling);
 		console.log(veilingJSON);
-		fetch(`http://localhost:8082/veilingstuk/${item.id}/veiling`, {
+		fetch(`${backendURL}/veilingstuk/${item.id}/veiling`, {
 			method: "POST",
 			body: veilingJSON,
 			headers: { "Content-Type": "application/json" },

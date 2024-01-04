@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import ItemTabel from "../components/ItemTabel";
 import Error from "partials/Error";
 import Spinner from "partials/Spinner";
+import { backendURL } from "js/Backend";
 
 export default function AdminItems() {
 	const [items, setItems] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const getItems = () => {
-		fetch("http://localhost:8082/veilingstukken")
+		fetch(`${backendURL}/veilingstukken`)
 			.then((r) => r.json())
 			.then((d) => setItems(d))
 			.then(() => setIsLoading(false));
