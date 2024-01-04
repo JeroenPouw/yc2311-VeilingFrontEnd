@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import {
-	Container,
-	Row,
-	Col,
-	Button,
-	Form,
-	Alert,
-	InputGroup,
-} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import AlertSuccess from "./AlertSuccess";
-import ImageUploader from "./ImageUploader";
+import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+
+import AlertMessage from "../partials/AlertMessage";
 
 export default function ItemForm({ veilingstuk }) {
-	const navigate = useNavigate();
 	const [item, setItem] = useState({
 		naam: veilingstuk.naam,
 		categorie: veilingstuk.categorie,
@@ -29,17 +19,17 @@ export default function ItemForm({ veilingstuk }) {
 	const showAlertHandler = () => setShowAlert(true);
 	const [message, setMessage] = useState("");
 
+	const handleAlert = (message) => {
+		showAlertHandler();
+		setMessage(message);
+	};
+
 	const handleChange = (e) => {
 		const { id, value } = e.target;
 		setItem((prevItem) => ({
 			...prevItem,
 			[id]: value,
 		}));
-	};
-
-	const handleAlert = (message) => {
-		showAlertHandler();
-		setMessage(message);
 	};
 
 	const editItem = () => {
@@ -51,7 +41,7 @@ export default function ItemForm({ veilingstuk }) {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then((r) => r.json())
-			.then((d) => handleAlert(`${d.naam} Item bijgewerkt.`));
+			.then((d) => handleAlert(`${d.naam} item bijgewerkt.`));
 	};
 
 	async function deleteItem() {
@@ -66,10 +56,11 @@ export default function ItemForm({ veilingstuk }) {
 			<Row>
 				<h1 className="text-center">{veilingstuk.naam}</h1>
 			</Row>
-			<AlertSuccess
+			<AlertMessage
 				showAlert={showAlert}
 				setShowAlert={setShowAlert}
 				message={message}
+				variant="success"
 			/>
 			<Row className="mt-3">
 				<Col xs={10} className="m-auto mb-3">
@@ -86,12 +77,23 @@ export default function ItemForm({ veilingstuk }) {
 						</Form.Group>
 						<Form.Group className="mb-3">
 							<Form.Label>Categorie</Form.Label>
-							<Form.Control
-								type="text"
+							<Form.Select
 								value={item.categorie}
 								onChange={handleChange}
 								id="categorie"
-							/>
+							>
+								<option value="" disabled selected>
+									Kies een categorie
+								</option>
+								<option value="Electronica">Electronica</option>
+								<option value="Huishouden">Huishouden</option>
+								<option value="Kunst">Kunst</option>
+								<option value="Mode">Mode</option>
+								<option value="Sieraden">Sieraden</option>
+								<option value="Tuin">Tuin</option>
+								<option value="Vervoer">Vervoer</option>
+								<option value="Anders">Anders</option>
+							</Form.Select>
 						</Form.Group>
 						<Form.Group className="mb-3">
 							<Form.Label>Productie datum</Form.Label>

@@ -1,39 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Nav, NavItem, NavLink, Row } from "react-bootstrap";
 import ItemCard from "../components/ItemCard";
-import { useLocation } from "react-router-dom";
+import { useAuth } from "js/AuthContext";
+import Spinner from "partials/Spinner";
 
 export default function Homepage() {
-	const location = useLocation();
-	const [activeTab, setActiveTab] = useState("aanbiedingen"); // Default active tab
+	const [activeTab, setActiveTab] = useState("Alle"); // Default active tab
 	const [items, setItems] = useState([]);
 	const [cat, setCat] = useState("all");
 	const [user, setUser] = useState({ favorieten: [], naam: "", id: 0 });
+	const [isLoading, setIsLoading] = useState(true);
+	const { isLoggedIn, setIsLoggedIn, token, setToken } = useAuth();
 
 	useEffect(() => {
-		async function getAccount() {
+		async function fetchUser() {
 			try {
-				if (location.state?.id) {
-					const response = await fetch(
-						`http://localhost:8082/account/${location.state.id}`
-					);
-					if (response.ok) {
-						const data = await response.json();
-						setUser(data);
-					} else {
+				if (token) {
+					const response = await fetch("http://localhost:8082/details", {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
+					if (response.status === 401) {
+						// Token is invalid or expired
+						console.error("Token expired or invalid");
+						localStorage.removeItem("userToken");
+						setToken(null);
+						setIsLoggedIn(false);
+						setUser(null);
+						return;
+					}
+					if (!response.ok) {
 						console.error("Failed to fetch user data");
 						setUser(null);
+						return;
 					}
+					const userDetails = await response.json();
+					setUser(userDetails);
 				} else {
-					setUser(null); // Set user to null when location.state.id doesn't exist
+					console.log("No token in storage");
+					setUser(null);
 				}
 			} catch (error) {
-				console.error("Error fetching user data:", error);
+				console.error("Error fetching user details:", error);
 				setUser(null);
 			}
 		}
-		getAccount();
-	}, [location.state]);
+		if (token) {
+			fetchUser();
+		}
+	}, [token]);
 
 	useEffect(() => {
 		async function getItems() {
@@ -44,6 +60,7 @@ export default function Homepage() {
 				if (response.ok) {
 					const data = await response.json();
 					setItems(data);
+					setIsLoading(false);
 				} else {
 					// Handle error cases here
 					console.error("Failed to fetch items");
@@ -58,6 +75,9 @@ export default function Homepage() {
 	const handleTabSelect = (selectedTab) => {
 		setActiveTab(selectedTab);
 		switch (selectedTab) {
+			case "Alle":
+				setCat("all");
+				break;
 			case "Electronica":
 				setCat("Electronica");
 				break;
@@ -86,32 +106,58 @@ export default function Homepage() {
 
 	return (
 		<>
-			{user != null && <h1 className="text-center">Welkom, {user.naam}</h1>}
-			<Nav fill variant="tabs" activeKey={activeTab} onSelect={handleTabSelect}>
+			{isLoggedIn && <h1 className="text-center">Welkom, {user.naam}!</h1>}
+			<Nav
+				fill
+				variant="underline"
+				activeKey={activeTab}
+				onSelect={handleTabSelect}
+				style={{ color: "black" }}
+			>
 				<NavItem>
-					<NavLink eventKey="Electronica">Electronica</NavLink>
+					<NavLink eventKey="Alle" style={{ color: "grey" }}>
+						Alle Categorieën
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Huishouden">Huishouden</NavLink>
+					<NavLink eventKey="Electronica" style={{ color: "grey" }}>
+						Electronica
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Kunst">Kunst</NavLink>
+					<NavLink eventKey="Huishouden" style={{ color: "grey" }}>
+						Huishouden
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Mode">Mode</NavLink>
+					<NavLink eventKey="Kunst" style={{ color: "grey" }}>
+						Kunst
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Sieraden">Sieraden</NavLink>
+					<NavLink eventKey="Mode" style={{ color: "grey" }}>
+						Mode
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Tuin">Tuin</NavLink>
+					<NavLink eventKey="Sieraden" style={{ color: "grey" }}>
+						Sieraden
+					</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink eventKey="Vervoer">Vervoer</NavLink>
+					<NavLink eventKey="Tuin" style={{ color: "grey" }}>
+						Tuin
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink eventKey="Vervoer" style={{ color: "grey" }}>
+						Vervoer
+					</NavLink>
 				</NavItem>
 			</Nav>
-
-			{user != null ? (
+			{isLoading ? (
+				<Spinner />
+			) : isLoggedIn ? (
 				<div className="m-3">
 					<Row xs={1} sm={2} md={3} lg={4} xxl={5} className="g-4">
 						{items &&
@@ -136,7 +182,7 @@ export default function Homepage() {
 							items.map((item) => {
 								return (
 									<Col key={item.id}>
-										<ItemCard user={user} item={item} />
+										<ItemCard item={item} />
 									</Col>
 								);
 							})}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function VeilingCards({ veilingen }) {
 	async function deleteVeiling(veilingID) {
@@ -13,12 +14,22 @@ export default function VeilingCards({ veilingen }) {
 			{veilingen.map((veiling, index) => (
 				<Card key={index} className="mb-2">
 					<Card.Body>
-						<Card.Title>
-							{new Date(veiling.startDatum).toLocaleString()}
-						</Card.Title>
+						<Link
+							to={`/veilingstuk/${veiling.veilingstuk_id}`}
+							style={{ textDecoration: "none" }}
+						>
+							<Card.Title>
+								{new Date(veiling.startDatum).toLocaleString()}
+							</Card.Title>
+						</Link>
 						<Card.Text>
 							Duratie: {veiling.duratieInSeconden} seconden <br />
-							Openings bod: €{veiling.openingsBodInEuros}
+							Openings bod: €{veiling.openingsBodInEuro} <br />
+							{veiling.laatsteBodInEuro > 0 ? (
+								<span>Laatste bod: €{veiling.laatsteBodInEuro}</span>
+							) : (
+								<span>Nog geen biedingen!</span>
+							)}
 						</Card.Text>
 
 						<Button

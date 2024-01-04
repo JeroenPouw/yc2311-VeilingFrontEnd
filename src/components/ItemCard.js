@@ -1,20 +1,17 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import FavorietButton from "./FavorietButton";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ItemOffcanvas from "./ItemOffcanvas";
 
 export default function ItemCard({ user = null, item, isFavoriet = null }) {
 	const navigate = useNavigate();
-	const location = useLocation();
+
 	const handleCardClick = () => {
 		navigate(`/veilingstuk/${item.id}`);
-		if (user) {
-			location.state.id = user.id;
-		}
 	};
+
 	return (
-		// <Col key={item.id} xs={12} sm={6} md={4} xl={3}>
 		<Card className="">
 			{item.fotos.length > 0 && (
 				<Card.Img

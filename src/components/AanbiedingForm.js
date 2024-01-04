@@ -8,7 +8,7 @@ import {
 	InputGroup,
 	Card,
 } from "react-bootstrap";
-import AlertSuccess from "./AlertSuccess";
+import AlertMessage from "../partials/AlertMessage";
 
 export default function AanbiedingForm({ user, onFormSubmitted }) {
 	const [item, setItem] = useState({
@@ -131,12 +131,23 @@ export default function AanbiedingForm({ user, onFormSubmitted }) {
 							</Form.Group>
 							<Form.Group className="mb-3">
 								<Form.Label>Categorie</Form.Label>
-								<Form.Control
-									type="text"
+								<Form.Select
 									value={item.categorie}
 									onChange={handleChange}
 									id="categorie"
-								/>
+								>
+									<option value="" disabled>
+										Kies een categorie
+									</option>
+									<option value="Electronica">Electronica</option>
+									<option value="Huishouden">Huishouden</option>
+									<option value="Kunst">Kunst</option>
+									<option value="Mode">Mode</option>
+									<option value="Sieraden">Sieraden</option>
+									<option value="Tuin">Tuin</option>
+									<option value="Vervoer">Vervoer</option>
+									<option value="Anders">Anders</option>
+								</Form.Select>
 							</Form.Group>
 							<Form.Group className="mb-3">
 								<Form.Label>Productie datum</Form.Label>
@@ -177,7 +188,7 @@ export default function AanbiedingForm({ user, onFormSubmitted }) {
 									</Row>
 								</>
 							) : (
-								<AlertSuccess
+								<AlertMessage
 									showAlert={true}
 									setShowAlert={setShowAlert}
 									message={

@@ -4,23 +4,45 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import AccountForm from "./AccountForm";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAuth } from "js/AuthContext";
+import AlertMessage from "../partials/AlertMessage";
 
 export default function AccountOffcanvas({ account }) {
 	const navigate = useNavigate();
 	const [show, setShow] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
+	const { setIsLoggedIn, setToken } = useAuth();
 
-	const openHomepage = (userID) => {
-		if (userID) {
-			navigate(`/persoonlijke-homepage`, {
-				state: { id: userID },
+	async function fetchToken(credentials) {
+		try {
+			const response = await fetch("http://localhost:8082/login", {
+				method: "POST",
+				body: credentials,
+				headers: { "Content-Type": "application/json" },
 			});
-		} else {
-			// inloggegevens niet gevonden;
+			if (!response.ok) {
+				throw new Error("Login failed");
+			}
+			const data = await response.json();
+			// Handle successful login, store token, etc.
+			localStorage.clear();
+			localStorage.setItem("userToken", data.token); // Storing token in localStorage
+			setToken(data.token);
+			setIsLoggedIn(true);
+		} catch (error) {
+			console.error("Login Error:", error);
+			setShowAlert(true);
 		}
-	};
+	}
+
+	function inloggenAls(user) {
+		const credentials = { email: user.email, password: user.password };
+		const credentialsJSON = JSON.stringify(credentials);
+		fetchToken(credentialsJSON);
+	}
 
 	return (
 		<>
@@ -33,28 +55,22 @@ export default function AccountOffcanvas({ account }) {
 					<Offcanvas.Title>Account details</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
+					<AlertMessage
+						showAlert={showAlert}
+						setShowAlert={setShowAlert}
+						message={"Er is iets misgegaan. Probeer opnieuw."}
+					></AlertMessage>
 					<Container>
 						<Row className="justify-items-evenly">
 							<Col className="text-center">
 								<Button
 									onClick={() => {
-										navigate(`/persoonlijke-homepage`, {
-											state: { id: account.id },
-										});
+										inloggenAls(account);
+										navigate("/");
+										navigate(0);
 									}}
 								>
-									Homepage
-								</Button>
-							</Col>
-							<Col className="text-center">
-								<Button
-									onClick={() => {
-										navigate(`/profiel`, {
-											state: { id: account.id },
-										});
-									}}
-								>
-									Profiel
+									Inloggen als {account.naam}
 								</Button>
 							</Col>
 						</Row>

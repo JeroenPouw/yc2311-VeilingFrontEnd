@@ -4,6 +4,7 @@ import ProfielGegevens from "./ProfielGegevens";
 import ProfielAanbiedingen from "./ProfielAanbiedingen";
 import ProfielFavorieten from "./ProfielFavorieten";
 import ProfielGewonnen from "./ProfielGewonnen";
+import ProfielBiedingen from "./ProfielBiedingen";
 
 export default function ProfielTabs({ user }) {
 	const [activeTab, setActiveTab] = useState("aanbiedingen"); // Default active tab
@@ -20,6 +21,8 @@ export default function ProfielTabs({ user }) {
 				return <ProfielGegevens user={user} />;
 			case "aanbiedingen":
 				return <ProfielAanbiedingen user={user} />;
+			case "biedingen":
+				return <ProfielBiedingen user={user} />;
 			case "favorieten":
 				return <ProfielFavorieten user={user} />;
 			default:
@@ -32,6 +35,9 @@ export default function ProfielTabs({ user }) {
 			<Nav fill variant="tabs" activeKey={activeTab} onSelect={handleTabSelect}>
 				<NavItem>
 					<NavLink eventKey="aanbiedingen">Mijn aanbiedingen</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink eventKey="biedingen">Mijn biedingen</NavLink>
 				</NavItem>
 				<NavItem>
 					<NavLink eventKey="gewonnen">Gewonnen veilingen</NavLink>
