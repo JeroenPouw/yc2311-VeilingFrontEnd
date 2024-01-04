@@ -62,7 +62,7 @@ export default function ProfielAanbiedingen({ user }) {
 				<AanbiedingForm user={user} onFormSubmitted={handleFormSubmitted} />
 			)}
 			<div className="m-3">
-				<Row xs={1} sm={1} md={2} lg={3} xxl={4} className="g-0">
+				<Row xs={1} sm={1} md={2} lg={3} xxl={4} className="g-3">
 					{items &&
 						items.map((item) => {
 							const isFavoriet =
@@ -71,12 +71,9 @@ export default function ProfielAanbiedingen({ user }) {
 								Array.isArray(user.favorieten) &&
 								user.favorieten.some((favItem) => favItem.id === item.id);
 							return (
-								<ItemCard
-									key={item.id}
-									user={user}
-									item={item}
-									isFavoriet={isFavoriet}
-								/>
+								<Col key={item.id}>
+									<ItemCard user={user} item={item} isFavoriet={isFavoriet} />
+								</Col>
 							);
 						})}
 				</Row>
