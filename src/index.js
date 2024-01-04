@@ -10,14 +10,13 @@ import Profiel from "./routes/Profiel";
 import AdminItems from "./routes/AdminItems";
 import AdminVeilingen from "./routes/AdminVeilingen";
 import AdminPortal from "./routes/AdminPortal";
-import PersoonlijkeHomepage from "./routes/PersoonlijkeHomepage";
 import Registreren from "./routes/Registreren";
 import Inloggen from "./routes/Inloggen";
 import AdminAccounts from "./routes/AdminAccounts";
 import DefaultAdminPage from "./routes/DefaultAdminPage";
 import ItemDetails from "./routes/ItemDetails";
 import Veilingen from "routes/Veilingen";
-import ImageUploader from "components/ImageUploader";
+import { AuthProvider } from "js/AuthContext";
 
 const router = createBrowserRouter([
 	{
@@ -68,10 +67,6 @@ const router = createBrowserRouter([
 				element: <Inloggen />,
 			},
 			{
-				path: "/persoonlijke-homepage",
-				element: <PersoonlijkeHomepage />,
-			},
-			{
 				path: "/veilingstuk/:id",
 				element: <ItemDetails />,
 			},
@@ -81,6 +76,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<AuthProvider>
+			<RouterProvider router={router} />
+		</AuthProvider>
 	</React.StrictMode>
 );

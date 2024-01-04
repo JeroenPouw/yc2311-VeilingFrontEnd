@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, InputGroup } from "react-bootstrap";
-import AlertMessage from "./AlertMessage";
+import AlertMessage from "../partials/AlertMessage";
 import BodCards from "./BodCards";
+import { useNavigate } from "react-router-dom";
+import Countdown from "react-countdown";
 
-export default function VeilingCard({ veilingProp, veilingID, index }) {
+export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
+	const navigate = useNavigate();
 	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState("");
 	const [alertVariant, setAlertVariant] = useState("success");
 	const [veiling, setVeiling] = useState(veilingProp);
 	const [bod, setBod] = useState(veiling.minimumBodInEuro);
-
-	const userID = 5;
+	const [endDate, setEndDate] = useState(new Date());
 
 	const fetchVeiling = async () => {
 		try {
@@ -36,13 +38,21 @@ export default function VeilingCard({ veilingProp, veilingID, index }) {
 		return () => clearInterval(interval);
 	});
 
+	useEffect(() => {
+		if (veiling.startDatum && veiling.duratieInMinuten) {
+			const end = new Date(veiling.startDatum);
+			end.setMinutes(end.getMinutes() + veiling.duratieInMinuten);
+			setEndDate(end);
+		}
+	}, [veiling]);
+
 	async function maakBod() {
 		if (bod < veiling.minimumBodInEuro) {
 			setMessage(`De minimumbod is €${veiling.minimumBodInEuro}.`);
 			setAlertVariant("danger");
 			setShowAlert(true);
 		} else {
-			await fetch(
+			const response = await fetch(
 				`http://localhost:8082/veiling/${veilingID}/account/${userID}/bod`,
 				{
 					method: "POST",
@@ -50,9 +60,16 @@ export default function VeilingCard({ veilingProp, veilingID, index }) {
 					headers: { "Content-Type": "application/json" },
 				}
 			);
-			setMessage(`U hebt een bod van €${bod} geplaatst.`);
-			setAlertVariant("success");
-			setShowAlert(true);
+			if (response.ok) {
+				setMessage(`U hebt een bod van €${bod} geplaatst.`);
+				setAlertVariant("success");
+				setShowAlert(true);
+			} else {
+				console.log(response);
+				setMessage(`Er ging iets mis. Bod niet geplaatst.`);
+				setAlertVariant("danger");
+				setShowAlert(true);
+			}
 		}
 	}
 
@@ -61,18 +78,41 @@ export default function VeilingCard({ veilingProp, veilingID, index }) {
 	}
 
 	async function handleBiedClick() {
+		if (userID === 0) {
+			navigate("/registreren");
+		}
 		await maakBod();
 		await fetchVeiling();
 		setBod(veiling.minimumBodInEuro);
+		await fetchVeiling();
 	}
 
 	return (
 		<Card key={index} className="my-3">
 			<Card.Body>
 				<Card.Title>
-					Begint om {new Date(veiling.startDatum).toLocaleString()}
+					{veiling.veilingStatus == "SCHEDULED" ||
+						(veiling.veilingStatus == null && (
+							<p>
+								Veiling begint om{" "}
+								{new Date(veiling.startDatum).toLocaleString()}
+							</p>
+						))}
+					{veiling.veilingStatus == "OPEN" && (
+						<h2>
+							<Countdown date={endDate} />
+						</h2>
+					)}
+					{veiling.veilingStatus == "CLOSED" && (
+						<p>Veiling beëindigd op {new Date(endDate).toLocaleString()}</p>
+					)}
 				</Card.Title>
-				<Card.Text>Duratie: {veiling.duratieInSeconden} seconden</Card.Text>
+
+				<Card.Text>
+					Duratie: {veiling.duratieInMinuten} minuten <br />
+					Eindigt: {new Date(endDate).toLocaleString()}
+				</Card.Text>
+
 				<ul>
 					<li>Openings bod: €{veiling.openingsBodInEuro}</li>
 					<li>Laatste bod: €{veiling.laatsteBodInEuro}</li>

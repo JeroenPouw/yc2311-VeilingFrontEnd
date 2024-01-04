@@ -8,30 +8,37 @@ import { useLocation, useParams } from "react-router-dom";
 export default function ItemDetails() {
 	const { id } = useParams();
 	const [item, setItem] = useState(null);
-	const [user, setUser] = useState(null);
-	const location = useLocation();
+	const [token, setToken] = useState(localStorage.getItem("userToken"));
+	const [user, setUser] = useState({ favorieten: [], naam: "", id: 0 });
 
 	useEffect(() => {
-		async function getAccount() {
+		async function fetchUser() {
 			try {
-				const response = await fetch(
-					`http://localhost:8082/account/${location.state?.id}`
-				);
-				if (response.ok) {
-					const data = await response.json();
-					setUser(data);
+				if (token) {
+					const response = await fetch("http://localhost:8082/details", {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
+					if (!response.ok) {
+						console.error("Failed to fetch user data");
+						setUser(null);
+					}
+					const userDetails = await response.json();
+					setUser(userDetails);
 				} else {
-					// Handle error cases here
-					console.error("Failed to fetch user data");
+					console.log("No token in storage");
+					setUser(null);
 				}
 			} catch (error) {
-				console.error("Error fetching user data:", error);
+				console.error("Error fetching user details:", error);
+				setUser(null);
 			}
 		}
-		if (location.state?.id) {
-			getAccount();
+		if (token) {
+			fetchUser();
 		}
-	}, [location.state]);
+	}, [token]);
 
 	useEffect(() => {
 		const fetchItem = async () => {
@@ -127,6 +134,7 @@ export default function ItemDetails() {
 									veilingProp={veiling}
 									index={index}
 									key={index}
+									userID={user.id}
 								/>
 							))
 						) : (

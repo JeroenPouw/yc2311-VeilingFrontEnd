@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Table } from "react-bootstrap";
 import AccountOffcanvas from "../components/AccountOffcanvas";
 
 export default function AccountTabel({ data }) {
-	const navigate = useNavigate();
-	const openHomepage = (userID) => {
-		if (userID) {
-			navigate(`/persoonlijke-homepage`, {
-				state: { id: userID },
-			});
-		} else {
-			// inloggegevens niet gevonden;
-		}
-	};
 	const renderTableCell = (value) => {
+		console.log(value);
 		// Check if the value is an object, if so, stringify it
 		if (typeof value === "object") {
 			if (Array.isArray(value)) {
@@ -24,7 +14,6 @@ export default function AccountTabel({ data }) {
 				return JSON.stringify(value);
 			}
 		}
-
 		return value;
 	};
 
@@ -40,6 +29,7 @@ export default function AccountTabel({ data }) {
 					<th>ID</th>
 					<th>Favorieten</th>
 					<th>Aangeboden</th>
+					<th>Biedingen</th>
 					<th>Email</th>
 					<th>Password</th>
 					<th>Naam</th>

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Container, Row, Col, InputGroup, Button, Form } from "react-bootstrap";
-import AlertSuccess from "./AlertMessage";
+import AlertSuccess from "../partials/AlertMessage";
 
 export default function VeilingForm({ item }) {
 	const [veiling, setVeiling] = useState({
 		veilingstukId: item.id,
-		startDatum: "2023-12-12T09:00:00",
-		duratieInSeconden: 3600,
-		openingsBodInEuro: 100,
+		openingsBodInEuros: 100,
+		startDatum: new Date().toISOString().slice(0, 16),
+		duratieInMinuten: 30,
+		openingsBodInEuro: 1,
 	});
 	// showAlert state and showAlertHandler to toggle it
 	const [showAlert, setShowAlert] = useState(false);
@@ -64,15 +65,15 @@ export default function VeilingForm({ item }) {
 						</Form.Group>
 						{/* Duratie */}
 						<Form.Group className="mb-3">
-							<Form.Label>Duratie in seconden</Form.Label>
+							<Form.Label>Duratie in minuten</Form.Label>
 							<InputGroup>
 								<Form.Control
 									type="number"
-									value={veiling.duratieInSeconden}
+									value={veiling.duratieInMinuten}
 									onChange={handleChange}
-									id="duratieInSeconden"
+									id="duratieInMinuten"
 								/>
-								<InputGroup.Text>seconden</InputGroup.Text>
+								<InputGroup.Text>minuten</InputGroup.Text>
 							</InputGroup>
 						</Form.Group>
 						{/* Openings bod */}

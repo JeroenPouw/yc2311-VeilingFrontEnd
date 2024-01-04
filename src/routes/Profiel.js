@@ -1,10 +1,10 @@
 import ProfielTabs from "components/ProfielTabs";
+import { useAuth } from "js/AuthContext";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import Spinner from "partials/Spinner";
 
 export default function Profiel() {
-	const location = useLocation();
 	const [user, setUser] = useState({
 		id: 0,
 		favorieten: [],
@@ -16,33 +16,64 @@ export default function Profiel() {
 		plaats: "",
 		postcode: "",
 	});
+	const { isLoggedIn, setIsLoggedIn, token, setToken } = useAuth();
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		async function getAccount() {
+		async function fetchUser() {
 			try {
-				const response = await fetch(
-					`http://localhost:8082/account/${location.state?.id}`
-				);
-				if (response.ok) {
-					const data = await response.json();
-					setUser(data);
+				if (token) {
+					const response = await fetch("http://localhost:8082/details", {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
+					if (response.status === 401) {
+						// Token is invalid or expired
+						console.error("Token expired or invalid");
+						localStorage.removeItem("userToken");
+						setToken(null);
+						setIsLoggedIn(false);
+						setUser(null);
+						setIsLoading(false);
+						return;
+					}
+					if (!response.ok) {
+						console.error("Failed to fetch user data");
+						setUser(null);
+						return;
+					}
+					const userDetails = await response.json();
+					setUser(userDetails);
+					setIsLoading(false);
 				} else {
-					// Handle error cases here
-					console.error("Failed to fetch user data");
+					console.log("No token in storage");
+					setUser(null);
+					setIsLoggedIn(false);
+					setIsLoading(false);
 				}
 			} catch (error) {
-				console.error("Error fetching user data:", error);
+				console.error("Error fetching user details:", error);
+				setUser(null);
+				setIsLoggedIn(false);
+				setIsLoading(false);
 			}
 		}
-		if (location.state?.id) {
-			getAccount();
+		if (token) {
+			fetchUser();
 		}
-	}, [location.state]);
+	}, [token]);
 
 	return (
 		<Container className="mt-3">
-			<h1 className="text-center mb-5">Welkom, {user.naam}!</h1>
-			<ProfielTabs user={user} />
+			{isLoading ? (
+				<Spinner />
+			) : (
+				<>
+					<h1 className="text-center mb-5">Welkom, {user.naam}!</h1>
+					<ProfielTabs user={user} />
+				</>
+			)}
 		</Container>
 	);
 }

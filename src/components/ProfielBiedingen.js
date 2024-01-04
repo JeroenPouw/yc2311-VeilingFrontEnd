@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ProfielBiedingen({ user }) {
@@ -21,7 +21,6 @@ export default function ProfielBiedingen({ user }) {
 			console.error("Error fetching user data:", error);
 		}
 	}
-	console.log(biedingen);
 
 	return (
 		<Container className="mt-4">

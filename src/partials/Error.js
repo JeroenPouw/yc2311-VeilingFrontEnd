@@ -4,7 +4,9 @@ import Alert from "react-bootstrap/Alert";
 
 export default function ErrorPage({ message = null }) {
 	const error = useRouteError();
-	console.error(error);
+	if (error) {
+		console.error(error);
+	}
 
 	return (
 		<div id="error-page">

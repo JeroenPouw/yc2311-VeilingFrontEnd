@@ -27,17 +27,22 @@ export default function BodCards({ veiling }) {
 	return (
 		<Container className="mt-4">
 			{biedingen &&
-				biedingen.map((bod, index) => {
-					return (
-						<Card key={index} className="mb-2">
-							<Card.Body>
-								<Card.Title>
-									<b>{bod.bieder_naam}:</b> €{bod.prijsInEuro}
-								</Card.Title>
-							</Card.Body>
-						</Card>
-					);
-				})}
+				biedingen
+					.slice()
+					.reverse()
+					.map((bod, index) => {
+						return (
+							<Row>
+								<Card key={index} className="mb-2">
+									<Card.Body>
+										<Card.Title>
+											<b>{bod.bieder_naam}:</b> €{bod.prijsInEuro}
+										</Card.Title>
+									</Card.Body>
+								</Card>
+							</Row>
+						);
+					})}
 		</Container>
 	);
 }

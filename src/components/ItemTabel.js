@@ -5,7 +5,6 @@ import ItemOffcanvas from "./ItemOffcanvas";
 
 export default function ItemTabel({ data }) {
 	const renderTableCell = (value) => {
-		console.log(value);
 		// Check if the value is an object, if so, stringify it
 		if (typeof value === "object") {
 			if (Array.isArray(value)) {

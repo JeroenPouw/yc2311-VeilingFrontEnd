@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import ItemCard from "./ItemCard";
 import AanbiedingForm from "./AanbiedingForm";
-import AlertSuccess from "./AlertMessage";
-import AlertMessage from "./AlertMessage";
+import AlertMessage from "../partials/AlertMessage";
 
 export default function ProfielAanbiedingen({ user }) {
 	const [toonForm, setToonForm] = useState(false);

@@ -1,3 +1,4 @@
+import { useAuth } from "js/AuthContext";
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,7 @@ export default function Registreren() {
 		plaats: "Den Haag",
 		postcode: "2433HH",
 	});
+	const { setToken, token, setIsLoggedIn, isLoggedIn } = useAuth();
 
 	const handleChange = (e) => {
 		const { id, value } = e.target;
@@ -19,10 +21,6 @@ export default function Registreren() {
 			...prevAccount,
 			[id]: value,
 		}));
-	};
-
-	const openHomepage = (userID) => {
-		navigate(`/profiel`, { state: { id: userID } });
 	};
 
 	const maakAccount = () => {
@@ -34,7 +32,7 @@ export default function Registreren() {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then((r) => r.json())
-			.then((d) => openHomepage(d.id));
+			.then((d) => navigate("/inloggen"));
 	};
 
 	return (

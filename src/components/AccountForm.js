@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import AlertMessage from "./AlertMessage";
+import AlertMessage from "../partials/AlertMessage";
 
 export default function AccountForm({ acc }) {
 	const navigate = useNavigate();
