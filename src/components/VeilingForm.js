@@ -7,7 +7,9 @@ export default function VeilingForm({ item }) {
 	const [veiling, setVeiling] = useState({
 		veilingstukId: item.id,
 		openingsBodInEuros: 100,
-		startDatum: new Date().toISOString().slice(0, 16),
+		startDatum: new Date(new Date().setHours(new Date().getHours() + 1))
+			.toISOString()
+			.slice(0, 16),
 		duratieInMinuten: 30,
 		openingsBodInEuro: 1,
 	});
