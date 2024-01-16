@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, InputGroup, Button, Form } from "react-bootstrap";
 import AlertSuccess from "../partials/AlertMessage";
 import { backendURL } from "js/Backend";
+import VeilingFormCards from "./VeilingFormCards";
 
 export default function VeilingForm({ item }) {
 	const [veiling, setVeiling] = useState({
@@ -17,6 +18,9 @@ export default function VeilingForm({ item }) {
 	const [showAlert, setShowAlert] = useState(false);
 	const showAlertHandler = () => setShowAlert(true);
 	const [message, setMessage] = useState("");
+	const [variant, setVariant] = useState("success");
+	const [showVeiling, setShowVeiling] = useState(false);
+	const [veilingen, setVeilingen] = useState([]);
 
 	const handleChange = (e) => {
 		const { id, value } = e.target;
@@ -26,24 +30,37 @@ export default function VeilingForm({ item }) {
 		}));
 	};
 
-	const handleAlert = (message) => {
+	const handleAlert = (message, variant) => {
 		showAlertHandler();
 		setMessage(message);
+		setVariant(variant);
 	};
+
+	function handleShowVeiling(veiling) {
+		setShowVeiling(true);
+		setVeilingen([veiling]);
+	}
 
 	const addVeiling = () => {
 		const veilingJSON = JSON.stringify(veiling);
 		console.log(veilingJSON);
-		fetch(`${backendURL}/veilingstuk/${item.id}/veiling`, {
-			method: "POST",
-			body: veilingJSON,
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((r) => r.json())
-			.then((d) => window.location.reload());
+		try {
+			fetch(`${backendURL}/veilingstuk/${item.id}/veiling`, {
+				method: "POST",
+				body: veilingJSON,
+				headers: { "Content-Type": "application/json" },
+			})
+				.then((r) => r.json())
+				.then((d) => handleShowVeiling(d))
+				.then(() => handleAlert("Veiling aangemaakt.", "success"));
+		} catch (error) {
+			handleAlert("Iets ging mis. Probeer opnieuw.", "danger");
+		}
 	};
 
-	return (
+	return showVeiling ? (
+		<VeilingFormCards veilingen={veilingen} />
+	) : (
 		<Container className="mt-3">
 			<Row>
 				<h3 className="text-center">Nieuwe veiling inplannen</h3>
@@ -52,6 +69,7 @@ export default function VeilingForm({ item }) {
 				showAlert={showAlert}
 				setShowAlert={setShowAlert}
 				message={message}
+				variant={variant}
 			/>
 			<Row className="mt-3">
 				<Col xs={10} className="m-auto mb-3">

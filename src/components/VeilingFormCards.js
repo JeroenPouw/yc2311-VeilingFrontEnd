@@ -24,7 +24,7 @@ export default function VeilingCards({ veilingen }) {
 							</Card.Title>
 						</Link>
 						<Card.Text>
-							Duratie: {veiling.duratieInSeconden} seconden <br />
+							Duratie: {veiling.duratieInMinuten} minuten <br />
 							Openings bod: €{veiling.openingsBodInEuro} <br />
 							{veiling.laatsteBodInEuro > 0 ? (
 								<span>Laatste bod: €{veiling.laatsteBodInEuro}</span>
@@ -39,7 +39,7 @@ export default function VeilingCards({ veilingen }) {
 								if (
 									window.confirm(
 										"Weet u zeker dat u dit item wilt verwijderen?"
-									) == true
+									) === true
 								) {
 									deleteVeiling(veiling.id);
 								}

@@ -6,7 +6,12 @@ import { useNavigate } from "react-router-dom";
 import Countdown from "react-countdown";
 import { backendURL } from "js/Backend";
 
-export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
+export default function VeilingCard({
+	veilingProp,
+	veilingID,
+	index = 1,
+	userID,
+}) {
 	const navigate = useNavigate();
 	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState("");
@@ -64,7 +69,7 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 		if (veiling.veilingStatus === "CLOSED") {
 			checkWinnaar();
 		}
-	}, [veiling.veilingStatus]);
+	}, [veiling.veilingStatus, veilingID]);
 
 	async function maakBod() {
 		if (bod < veiling.minimumBodInEuro) {
@@ -110,19 +115,19 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 		<Card key={index} className="my-3">
 			<Card.Body>
 				<Card.Title>
-					{veiling.veilingStatus == "SCHEDULED" ||
+					{veiling.veilingStatus === "SCHEDULED" ||
 						(veiling.veilingStatus == null && (
 							<p>
 								Veiling begint om{" "}
 								{new Date(veiling.startDatum).toLocaleString()}
 							</p>
 						))}
-					{veiling.veilingStatus == "OPEN" && (
+					{veiling.veilingStatus === "OPEN" && (
 						<h2>
 							<Countdown date={veiling.eindDatum} />
 						</h2>
 					)}
-					{veiling.veilingStatus == "CLOSED" && (
+					{veiling.veilingStatus === "CLOSED" && (
 						<p>
 							Veiling beëindigd op{" "}
 							{new Date(veiling.eindDatum).toLocaleString()}
@@ -151,12 +156,12 @@ export default function VeilingCard({ veilingProp, veilingID, index, userID }) {
 							onChange={handleChange}
 							aria-label="Bod in euros"
 							min={veiling.minimumBodInEuro}
-							disabled={veiling.veilingStatus != "OPEN"}
+							disabled={veiling.veilingStatus !== "OPEN"}
 						/>
 						<Button
 							onClick={handleBiedClick}
 							variant="outline-secondary"
-							disabled={veiling.veilingStatus != "OPEN"}
+							disabled={veiling.veilingStatus !== "OPEN"}
 						>
 							Bied
 						</Button>
